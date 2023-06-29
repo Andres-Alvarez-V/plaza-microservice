@@ -1,16 +1,25 @@
 module.exports = {
+  settings: {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
 	root: true,
+  ignorePatterns: ['.eslintrc.js', "commitlint.config.js", "jest.config.js"],
 	env: {
 		es2021: true,
 		node: true,
+    jest:true
 	},
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
-		ecmaVersion: 'latest',
+    project : 'tsconfig.json',
 		sourceType: 'module',
 	},
 	extends: ['eslint:recommended', 'plugin:prettier/recommended'],
-	plugins: ['simple-import-sort', 'import', 'unused-imports'],
+	plugins: ['import', 'unused-imports'],
 	rules: {
 		//error prevention
 		'array-callback-return': ['error', { checkForEach: true }],
@@ -67,7 +76,7 @@ module.exports = {
 		'import/first': 'error',
 		'import/newline-after-import': 'error',
 		'import/no-duplicates': 'error',
-		'import/no-unresolved': 'error',
+		'import/no-unresolved': 'warn',
 		'import/no-webpack-loader-syntax': 'error',
 		'prettier/prettier': [
 			'error',
@@ -84,8 +93,6 @@ module.exports = {
 				endOfLine: 'auto',
 			},
 		],
-		'simple-import-sort/exports': 'error',
-		'simple-import-sort/imports': 'error',
 		'unused-imports/no-unused-imports': 'error',
 		'no-unused-vars': 'off',
 		'unused-imports/no-unused-vars': [

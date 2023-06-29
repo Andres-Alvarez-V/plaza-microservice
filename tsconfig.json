@@ -8,10 +8,13 @@
         "moduleResolution": "node",
         "sourceMap": true,
         "outDir": "dist",
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
     },
     "include": [
         "src/**/*",
-        // "test/**/*",
+        "test/**/**.ts",
     ],
+    "exclude": [
+        "node_modules"
+    ]
 }
