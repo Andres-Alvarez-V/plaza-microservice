@@ -4,7 +4,7 @@ import { RestaurantUsecase } from '../../app/usecases/restaurant.usecase';
 import { IRestaurant } from '../../domain/entities/restaurant';
 import { ICreateRestaurantDTO } from '../../app/dtos/request/restaurant.dto';
 
-export class UserController {
+export class RestaurantController {
 	constructor(private readonly restaurantUsecase: RestaurantUsecase) {}
 
 	async create(req: Request, res: Response, next: NextFunction) {

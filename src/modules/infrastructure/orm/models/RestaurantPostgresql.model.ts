@@ -1,8 +1,8 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
-import { IRestaurant } from '../../domain/entities/restaurant';
+import { IRestaurant } from '../../../domain/entities/restaurant';
 
-export const RESTAURANT_TABLE = 'restaurantes';
-export const RestaurantSchema = {
+export const RESTAURANT_POSTGRESQL_TABLE = 'restaurantes';
+export const RestaurantPostgresqlSchema = {
 	id: {
 		type: DataTypes.INTEGER,
 		autoIncrement: true,
@@ -35,7 +35,10 @@ export const RestaurantSchema = {
 	},
 };
 
-export class Restaurant extends Model<IRestaurant, Omit<IRestaurant, 'id'>> implements IRestaurant {
+export class RestaurantPostgresql
+	extends Model<IRestaurant, Omit<IRestaurant, 'id'>>
+	implements IRestaurant
+{
 	public id!: number;
 	public nombre!: string;
 	public direccion!: string;
@@ -47,8 +50,8 @@ export class Restaurant extends Model<IRestaurant, Omit<IRestaurant, 'id'>> impl
 	static config(sequelize: Sequelize) {
 		return {
 			sequelize,
-			tableName: RESTAURANT_TABLE,
-			modelName: RESTAURANT_TABLE,
+			tableName: RESTAURANT_POSTGRESQL_TABLE,
+			modelName: RESTAURANT_POSTGRESQL_TABLE,
 			timestamps: false,
 		};
 	}

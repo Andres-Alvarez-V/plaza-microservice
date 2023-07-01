@@ -6,25 +6,25 @@ import { Schema } from 'joi';
 
 export const validatorRoleHandler = (role: RoleType) => {
 	return async (req: Request, res: Response, next: NextFunction) => {
-		const idPropietario = req.body.id_propietario;
+		const ownerID = req.body.id_propietario;
 		const userMicroserviceBaseUrl = process.env.USER_MICROSERVICE_BASE_URL as string;
 		let response;
 		try {
-			response = await axios.get(
-				`${userMicroserviceBaseUrl}/user?id=${idPropietario}&querySearch=role`,
-			);
+			response = await axios.get(`${userMicroserviceBaseUrl}/user?id=${ownerID}&querySearch=role`);
 
 			if (response.data === null) {
-				next(boom.notFound('User not found with the given id'));
-			}
+				next(boom.notFound('Usuario no encontrado para el id dado'));
 
-			if (response.data.id_rol === role) {
-				next();
-			} else {
-				next(boom.unauthorized('No tienes permisos para realizar esta acción'));
+				return;
 			}
+			if (response.data.id_rol !== role) {
+				next(boom.unauthorized('No tienes permisos para realizar esta acción'));
+
+				return;
+			}
+			next();
 		} catch (error) {
-			next(boom.badImplementation('An error occurred while validating the role'));
+			next(boom.badImplementation('Un error ocurrio validando el error'));
 		}
 	};
 };

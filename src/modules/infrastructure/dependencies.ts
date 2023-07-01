@@ -1,7 +1,17 @@
-import { RestaurantRepository } from './orm/restaurant.repository';
 import { RestaurantUsecase } from '../app/usecases/restaurant.usecase';
-import { UserController } from './controller/restaurant.controllers';
+import { RestaurantController } from './controller/restaurant.controllers';
+import { DishPostgresqlRepository } from './orm/repository/dishPostgresql.repository';
+import { DishUsecase } from '../app/usecases/dish.usecase';
+import { DishController } from './controller/dish.controller';
+import { CategoryPostgresqlRepository } from './orm/repository/categoryPostgresql.repository';
+import { RestaurantPostgresqlRepository } from './orm/repository/restaurantPostgresql.repository';
 
-const restaurantRepository = new RestaurantRepository();
+const restaurantRepository = new RestaurantPostgresqlRepository();
 const restaurantUseCase = new RestaurantUsecase(restaurantRepository);
-export const userController = new UserController(restaurantUseCase);
+export const restaurantController = new RestaurantController(restaurantUseCase);
+
+const categoryRepository = new CategoryPostgresqlRepository();
+
+const dishRepository = new DishPostgresqlRepository();
+const dishUseCase = new DishUsecase(dishRepository, categoryRepository, restaurantRepository);
+export const dishController = new DishController(dishUseCase);
