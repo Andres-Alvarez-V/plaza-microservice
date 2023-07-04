@@ -1,19 +1,21 @@
-{ 
-		"openapi": "3.1.0",
-		"info": {
-			"title": "Users API - OpenAPI 3.0",
-			"description": "",
-			"version": "1.0.0"
-  },
+{
+	"openapi": "3.1.0",
+	"info": {
+		"title": "Users API - OpenAPI 3.0",
+		"description": "",
+		"version": "1.0.0"
+	},
 	"servers": [
-    {
-      "url": "http://localhost:3001/api/v1"
-    }
-  ],
+		{
+			"url": "http://localhost:3001/api/v1"
+		}
+	],
 	"paths": {
 		"/admin/crearRestaurante": {
 			"post": {
-				"tags": ["Users"],
+				"tags": [
+					"Users"
+				],
 				"summary": "Create restaurant",
 				"description": "Create a new restaurant",
 				"requestBody": {
@@ -72,7 +74,9 @@
 		},
 		"/propietario/crearPlato": {
 			"post": {
-				"tags": ["Users"],
+				"tags": [
+					"Users"
+				],
 				"summary": "Create dish",
 				"description": "Create a new dish",
 				"requestBody": {
@@ -128,78 +132,144 @@
 					}
 				}
 			}
+		},
+		"/propietario/actualizarPlato/{id}": {
+			"put": {
+				"tags": [
+					"Users"
+				],
+				"summary": "Update dish",
+				"description": "Update a dish",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "ID del plato a actualizar",
+						"required": true,
+						"schema": {
+							"type": "number",
+							"example": "3"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/DishUpdate"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Successful Response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SuccessfulResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Missing data or with any wrong.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	},
 	"components": {
-    "schemas": {
-      "RestaurantCreate": {
-        "type": "object",
-        "properties": {
-          "nombre": {
-            "type": "string"
-          },
-          "direccion": {
-            "type": "string"
-          },
-          "id_propietario": {
-            "type": "number"
-          },
-          "telefono": {
-            "type": "string"
-          },
-          "urlLogo": {
-            "type": "string"
-          },
-          "nit": {
-            "type": "string"
-          }
-        }
-      },
-      "DishCreate": {
-        "type": "object",
-        "properties": {
-          "nombre": {
-            "type": "string"
-          },
-          "id_categoria": {
-            "type": "number"
-          },
-          "descripcion": {
-            "type": "string"
-          },
-          "precio": {
-            "type": "number"
-          },
-          "id_restaurante": {
-            "type": "number"
-          },
-          "uri_imagen": {
-            "type": "string"
-          }
-        }
-      },
-      "SuccessfulResponse": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string",
-            "example": "successful confirmation message"
-          }
-        }
-      },
-      "FailResponse": {
-        "type": "object",
-        "properties": {
-          "statusCode": {
-            "type": "number",
-            "example": "http status code"
-          },
-          "errorMessage": {
-            "type": "string",
-            "example": "fail message"
-          }
-        }
-      }
-    }
+		"schemas": {
+			"RestaurantCreate": {
+				"type": "object",
+				"properties": {
+					"nombre": {
+						"type": "string"
+					},
+					"direccion": {
+						"type": "string"
+					},
+					"id_propietario": {
+						"type": "number"
+					},
+					"telefono": {
+						"type": "string"
+					},
+					"urlLogo": {
+						"type": "string"
+					},
+					"nit": {
+						"type": "string"
+					}
+				}
+			},
+			"DishCreate": {
+				"type": "object",
+				"properties": {
+					"nombre": {
+						"type": "string"
+					},
+					"id_categoria": {
+						"type": "number"
+					},
+					"descripcion": {
+						"type": "string"
+					},
+					"precio": {
+						"type": "number"
+					},
+					"id_restaurante": {
+						"type": "number"
+					},
+					"uri_imagen": {
+						"type": "string"
+					}
+				}
+			},
+			"DishUpdate": {
+				"type": "object",
+				"properties": {
+					"precio": {
+						"type": "number",
+						"default": "0"
+					},
+					"descripcion": {
+						"type": "string",
+						"default": "undefined"
+					}
+				},
+				"SuccessfulResponse": {
+					"type": "object",
+					"properties": {
+						"message": {
+							"type": "string",
+							"example": "successful confirmation message"
+						}
+					}
+				},
+				"FailResponse": {
+					"type": "object",
+					"properties": {
+						"statusCode": {
+							"type": "number",
+							"example": "http status code"
+						},
+						"errorMessage": {
+							"type": "string",
+							"example": "fail message"
+						}
+					}
+				}
+			}
+		}
 	}
 }

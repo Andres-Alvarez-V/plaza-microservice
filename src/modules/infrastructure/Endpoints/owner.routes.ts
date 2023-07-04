@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { dishController } from '../dependencies';
 import { validatorSchemaHandler } from '../middlewares/validator.handler';
-import { createDishSchema } from '../../app/dtos/request/dish.dto';
+import { createDishSchema, updateDishSchema } from '../../app/dtos/request/dish.dto';
 
 const router = Router();
 
@@ -11,3 +11,9 @@ router.post(
 	dishController.create.bind(dishController),
 );
 export default router;
+
+router.put(
+	'/actualizarPlato/:id',
+	validatorSchemaHandler(updateDishSchema, 'body'),
+	dishController.update.bind(dishController),
+);

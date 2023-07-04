@@ -19,16 +19,22 @@ export class DishUsecase {
 
 		const category = await this.categoryRepository.findById(dish.id_categoria);
 		if (!category) {
-			throw boom.notFound('Category not found');
+			throw boom.notFound('Categoria no encontrada');
 		}
 
 		const restaurant = await this.restaurantRepository.findById(dish.id_restaurante);
 		if (!restaurant) {
-			throw boom.notFound('Restaurant not found');
+			throw boom.notFound('Restaurante no encontrado');
 		}
 
 		const newDish = await this.dishRepository.create(newData);
 
 		return newDish;
+	}
+
+	async update(id: number, dish: ICreateDishDTO) {
+		const updatedDish = await this.dishRepository.update(id, dish);
+
+		return updatedDish;
 	}
 }
