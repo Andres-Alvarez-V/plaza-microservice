@@ -30,7 +30,7 @@ describe('createDishSchema', () => {
 		expect(errorMessages).toContain('El campo "precio" debe ser mayor a 0');
 	});
 
-	it('should return error because "nombre", "id_categoria", "descripcion", "precio", "id_restaurante", "uri_imagen" son requeridos', () => {
+	it('should return error because "nombre", "id_categoria", "descripcion", "precio", "id_restaurante", "uri_imagen" are required', () => {
 		const invalidDish = {};
 
 		const { error } = createDishSchema.validate(invalidDish, { abortEarly: false });

@@ -188,6 +188,14 @@
 		}
 	},
 	"components": {
+		"securitySchemes": {
+			"bearerAuth": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT",
+				"description": "Authorization header using the Bearer scheme. Provide a valid JWT token."
+			}
+		},
 		"schemas": {
 			"RestaurantCreate": {
 				"type": "object",
@@ -267,6 +275,28 @@
 							"type": "string",
 							"example": "fail message"
 						}
+					}
+				}
+			},
+			"SuccessfulResponse": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string",
+						"example": "successful confirmation message"
+					}
+				}
+			},
+			"FailResponse": {
+				"type": "object",
+				"properties": {
+					"statusCode": {
+						"type": "number",
+						"example": "http status code"
+					},
+					"errorMessage": {
+						"type": "string",
+						"example": "fail message"
 					}
 				}
 			}
