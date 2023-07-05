@@ -28,4 +28,13 @@ export class DishPostgresqlRepository implements IDishRepository {
 
 		return updatedDish as IDish;
 	}
+
+	async findById(id: number): Promise<IDish | null> {
+		const dish = await this.sequelize.models[DISH_POSTGRESQL_TABLE].findByPk(id);
+		if (!dish) {
+			return null;
+		}
+
+		return dish.toJSON() as IDish;
+	}
 }

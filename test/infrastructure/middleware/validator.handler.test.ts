@@ -69,7 +69,7 @@ describe('validatorSchemaHandler', () => {
 	});
 });
 
-describe('validatorRoleHandler', () => {
+describe('validatorRoleHandler. If get "Un error ocurrio validando el error". Should check the other microservice is working', () => {
 	let req: Partial<Request>;
 	let res: Partial<Response>;
 	let next: jest.Mock;
@@ -78,7 +78,7 @@ describe('validatorRoleHandler', () => {
 		req = {
 			...req,
 			body: {
-				id_propietario: 1,
+				id_propietario: 13, // Este usuario es de rol propietario
 			},
 		};
 		res = {};
@@ -114,7 +114,7 @@ describe('validatorRoleHandler', () => {
 		const newReq = {
 			...req,
 			body: {
-				id_propietario: 4,
+				id_propietario: 4, // Este usuario es de rol empleado. Por eso no esta autorizado
 			},
 		};
 		await validatorRoleHandler(role)(newReq as Request, res as Response, next as NextFunction);
@@ -129,7 +129,7 @@ describe('validatorRoleHandler', () => {
 		const newReq = {
 			...req,
 			body: {
-				id_propietario: 4,
+				id_propietario: 4, // Este usuario es de rol empleado
 			},
 		};
 		jest.spyOn(axios, 'get').mockRejectedValueOnce(new Error('Error'));

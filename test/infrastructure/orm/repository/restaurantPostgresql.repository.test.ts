@@ -11,8 +11,8 @@ describe('RestaurantPostgresqlRepository', () => {
 
 	it('should create a new restaurant', async () => {
 		const restaurantMock: Omit<IRestaurant, 'id'> = {
-			nombre: 'El Chinito',
-			direccion: 'Av. Los Incas 123',
+			nombre: 'TEST RESTAURANT',
+			direccion: 'TEST',
 			id_propietario: 2,
 			telefono: '123456789',
 			urlLogo: 'https://www.google.com',
