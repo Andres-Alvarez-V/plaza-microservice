@@ -1,6 +1,9 @@
 import { IDish } from '../../../../src/modules/domain/entities/dish';
 import { DishPostgresqlRepository } from '../../../../src/modules/infrastructure/orm/repository/dishPostgresql.repository';
-import { IUpdateDishDTO } from '../../../../src/modules/app/dtos/request/dish.dto';
+import {
+	IChangeDishStateDTO,
+	IModifyDishDTO,
+} from '../../../../src/modules/app/dtos/request/dish.dto';
 
 describe('DishPostgresqlRepository', () => {
 	let repository: DishPostgresqlRepository;
@@ -31,13 +34,28 @@ describe('DishPostgresqlRepository', () => {
 		});
 	});
 
-	it('should update a dish', async () => {
+	it('should update a dish. "Precio" and "descripcion"', async () => {
 		if (!dishMock) {
 			throw new Error('dishMock is null. Cannot update dish.');
 		}
-		const dishMockTemp: IUpdateDishDTO = {
+		const dishMockTemp: IModifyDishDTO = {
 			precio: 30,
 			descripcion: 'Plato actualizado',
+		};
+		const dish = await repository.update(dishMock.id, dishMockTemp);
+		dishMock = {
+			...dishMock,
+			...dishMockTemp,
+		};
+		expect(dish).toMatchObject(dishMock);
+	});
+
+	it('should update a dish. "activo"', async () => {
+		if (!dishMock) {
+			throw new Error('dishMock is null. Cannot update dish.');
+		}
+		const dishMockTemp: IChangeDishStateDTO = {
+			activo: false,
 		};
 		const dish = await repository.update(dishMock.id, dishMockTemp);
 		dishMock = {

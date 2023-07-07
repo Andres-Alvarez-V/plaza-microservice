@@ -1,7 +1,7 @@
 import boom from '@hapi/boom';
 import { ICategoryRepository } from '../../domain/repositories/category.repository';
 import { IDishRepository } from '../../domain/repositories/dish.repository';
-import { ICreateDishDTO, IUpdateDishDTO } from '../dtos/request/dish.dto';
+import { IChangeDishStateDTO, ICreateDishDTO, IModifyDishDTO } from '../dtos/request/dish.dto';
 import { IRestaurantRepository } from '../../domain/repositories/restaurant.repository';
 import { IJWTPayload } from '../../domain/entities/JWTPayload';
 
@@ -39,7 +39,11 @@ export class DishUsecase {
 		return newDish;
 	}
 
-	async update(dishId: number, dish: IUpdateDishDTO, userPayload: IJWTPayload) {
+	async update(
+		dishId: number,
+		dish: IModifyDishDTO | IChangeDishStateDTO,
+		userPayload: IJWTPayload,
+	) {
 		const dishData = await this.dishRepository.findById(dishId);
 		if (!dishData) {
 			throw boom.notFound('Plato no encontrado');

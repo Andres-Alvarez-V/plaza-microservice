@@ -1,5 +1,6 @@
 import {
 	ICreateDishDTO,
+	changeDishStateSchema,
 	createDishSchema,
 } from '../../../../src/modules/app/dtos/request/dish.dto';
 
@@ -43,5 +44,18 @@ describe('createDishSchema', () => {
 		expect(errorMessages).toContain('El campo "precio" es requerido');
 		expect(errorMessages).toContain('El campo "id_restaurante" es requerido');
 		expect(errorMessages).toContain('El campo "uri_imagen" es requerido');
+	});
+});
+
+describe('changeDishStateDTO', () => {
+	it('should validate a valid dish object', () => {
+		const { error } = changeDishStateSchema.validate({ activo: true }, { abortEarly: false });
+		expect(error).toBeUndefined();
+	});
+	it('should return an error for invalid dish object. "activo" should be a boolean', () => {
+		const { error } = changeDishStateSchema.validate({ activo: 23 }, { abortEarly: false });
+		expect(error).toBeDefined();
+		const errorMessages = error?.details.map((detail) => detail.message);
+		expect(errorMessages).toContain('El campo "activo" debe ser un booleano');
 	});
 });

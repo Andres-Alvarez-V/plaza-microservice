@@ -1,7 +1,11 @@
 import { Router } from 'express';
 import { dishController, employeeController } from '../dependencies';
 import { validatorCheckRole, validatorSchemaHandler } from '../middlewares/validator.handler';
-import { createDishSchema, updateDishSchema } from '../../app/dtos/request/dish.dto';
+import {
+	changeDishStateSchema,
+	createDishSchema,
+	updateDishSchema,
+} from '../../app/dtos/request/dish.dto';
 import passport from 'passport';
 import { RoleType } from '../../domain/enums/role-type.enum';
 import { createEmployeeSchema } from '../../app/dtos/request/employee.dto';
@@ -15,7 +19,6 @@ router.post(
 	validatorSchemaHandler(createDishSchema, 'body'),
 	dishController.create.bind(dishController),
 );
-export default router;
 
 router.put(
 	'/actualizarPlato/:id',
@@ -32,3 +35,13 @@ router.post(
 	validatorSchemaHandler(createEmployeeSchema, 'body'),
 	employeeController.create.bind(employeeController),
 );
+
+router.put(
+	'/cambiarEstadoPlato/:id',
+	passport.authenticate('jwt', { session: false }),
+	validatorCheckRole(RoleType.OWNER),
+	validatorSchemaHandler(changeDishStateSchema, 'body'),
+	dishController.changeState.bind(dishController),
+);
+
+export default router;

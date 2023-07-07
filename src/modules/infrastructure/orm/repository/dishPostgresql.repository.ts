@@ -3,7 +3,7 @@ import { Sequelize } from 'sequelize';
 import { SequelizePostgresqlConnection } from '../sequelizePostgresqlConnection';
 import { IDish } from '../../../domain/entities/dish';
 import { DISH_POSTGRESQL_TABLE } from '../models/DishPostgresql.model';
-import { IUpdateDishDTO } from '../../../app/dtos/request/dish.dto';
+import { IChangeDishStateDTO, IModifyDishDTO } from '../../../app/dtos/request/dish.dto';
 
 export class DishPostgresqlRepository implements IDishRepository {
 	private sequelize: Sequelize;
@@ -18,7 +18,7 @@ export class DishPostgresqlRepository implements IDishRepository {
 		return newDish as IDish;
 	}
 
-	async update(id: number, dish: IUpdateDishDTO): Promise<IDish> {
+	async update(id: number, dish: IModifyDishDTO | IChangeDishStateDTO): Promise<IDish> {
 		const updatedDish = (
 			await this.sequelize.models[DISH_POSTGRESQL_TABLE].update(dish, {
 				where: { id },

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { DishUsecase } from '../../app/usecases/dish.usecase';
-import { ICreateDishDTO } from '../../app/dtos/request/dish.dto';
+import { IChangeDishStateDTO, ICreateDishDTO } from '../../app/dtos/request/dish.dto';
 import { IJWTPayload } from '../../domain/entities/JWTPayload';
 
 export class DishController {
@@ -28,6 +28,21 @@ export class DishController {
 			const updatedDish = await this.dishUsecase.update(Number(id), data, userPayload);
 			res.status(200).json({
 				message: 'Plato actualizado correctamente',
+				data: updatedDish,
+			});
+		} catch (error) {
+			next(error);
+		}
+	}
+
+	async changeState(req: Request, res: Response, next: NextFunction) {
+		try {
+			const id = Number(req.params.id);
+			const data: IChangeDishStateDTO = req.body;
+			const userPayload = req.user as IJWTPayload;
+			const updatedDish = await this.dishUsecase.update(id, data, userPayload);
+			res.status(200).json({
+				message: 'Estado del plato actualizado correctamente',
 				data: updatedDish,
 			});
 		} catch (error) {

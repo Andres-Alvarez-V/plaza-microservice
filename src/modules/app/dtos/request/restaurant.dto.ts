@@ -3,6 +3,16 @@ import { IRestaurant } from '../../../domain/entities/restaurant';
 
 export interface ICreateRestaurantDTO extends Omit<IRestaurant, 'id'> {}
 
+const customMessages = {
+	'string.min': 'El campo {#label} debe tener al menos {#limit} caracteres',
+	'string.max': 'El campo {#label} debe tener como máximo {#limit} caracteres',
+	'any.required': 'El campo {#label} es obligatorio',
+	'number.integer': 'El campo {#label} debe ser un número entero',
+	'number.positive': 'El campo {#label} debe ser un número positivo',
+	'string.pattern.base': 'El campo {#label} no cumple con el formato válido',
+	'string.uri': 'El campo {#label} debe ser una URL válida',
+};
+
 const name = Joi.string()
 	.min(3)
 	.max(254)
@@ -22,12 +32,6 @@ export const createRestaurantSchema = Joi.object<ICreateRestaurantDTO>({
 	nit: nit.required(),
 }).options({
 	messages: {
-		'string.min': 'El campo {#label} debe tener al menos {#limit} caracteres',
-		'string.max': 'El campo {#label} debe tener como máximo {#limit} caracteres',
-		'any.required': 'El campo {#label} es obligatorio',
-		'number.integer': 'El campo {#label} debe ser un número entero',
-		'number.positive': 'El campo {#label} debe ser un número positivo',
-		'string.pattern.base': 'El campo {#label} no cumple con el formato válido',
-		'string.uri': 'El campo {#label} debe ser una URL válida',
+		...customMessages,
 	},
 });
