@@ -3,6 +3,7 @@ import { IDish } from '../../../src/modules/domain/entities/dish';
 import { App } from '../../../src/app';
 import { IUpdateDishDTO } from '../../../src/modules/app/dtos/request/dish.dto';
 import dotenv from 'dotenv';
+import { IEmployee } from '../../../src/modules/domain/entities/employee';
 
 dotenv.config();
 const app = new App().getInstance();
@@ -51,6 +52,34 @@ describe('Create dish - POST /propietario/crearPlato', () => {
 			.set('Authorization', `Bearer ${process.env.JWT_OWNER_TOKEN_TEST}`)
 			.send(tempData);
 		expect(response.status).toEqual(404);
+	});
+});
+
+describe('CreateEmployee - POST /propietario/crearEmpleado', () => {
+	const employeeMock: IEmployee = {
+		id_empleado: 30,
+		id_restaurante: 30,
+	};
+	test('should create a new employee with a 201 response', async () => {
+		const response = await request(app)
+			.post('/api/v1/propietario/agregarEmpleado')
+			.set('Authorization', `Bearer ${process.env.JWT_OWNER_TOKEN_TEST}`)
+			.send(employeeMock);
+		expect(response.status).toEqual(201);
+	});
+
+	test('should return a 400 response when the data is incomplete or with any wrong.', async () => {
+		const response = await request(app)
+			.post('/api/v1/propietario/agregarEmpleado')
+			.set('Authorization', `Bearer ${process.env.JWT_OWNER_TOKEN_TEST}`)
+			.send({
+				nombre: 'TEST EMPLOYEE',
+				apellido: 'TEST',
+				telefono: '+1234567890',
+				direccion: 'TEST',
+				rol: 'waiter',
+			});
+		expect(response.status).toEqual(400);
 	});
 });
 
