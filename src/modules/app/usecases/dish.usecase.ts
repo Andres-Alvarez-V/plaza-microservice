@@ -64,4 +64,26 @@ export class DishUsecase {
 
 		return updatedDish;
 	}
+
+	async getAllByPaginationFilterByCategory(
+		page: number,
+		limit: number,
+		restaurantId: number,
+		categories: number[] | [],
+	) {
+		console.log('categories', categories);
+		const restaurant = await this.restaurantRepository.findById(restaurantId);
+		if (!restaurant) {
+			throw boom.notFound('Restaurante no encontrado');
+		}
+
+		const dishes = await this.dishRepository.getAllByPaginationFilter(
+			restaurantId,
+			page,
+			limit,
+			categories,
+		);
+
+		return dishes;
+	}
 }

@@ -285,6 +285,99 @@
 				}
 			}
 		},
+		"/cliente/platos/{id_restaurante}": {
+			"get": {
+				"tags": [
+					"Users"
+				],
+				"summary": "Get dishes",
+				"description": "Get dishes by page, limit and categoriesId parameters to get a clean response. \nYou can provided the category array id if you want to filter by categroy. Otherwise dont provide it .\n\n Example with category: `/api/v1/cliente/platos/1?page=1&limit=10&categoriesId=1,3,5` \n\n Example without category: `/api/v1/cliente/platos/1?page=1&limit=10`",
+				"parameters": [
+					{
+						"name": "id_restaurante",
+						"in": "path",
+						"description": "ID del restaurante",
+						"required": true,
+						"schema": {
+							"type": "number",
+							"example": "3"
+						}
+					},
+					{
+						"name": "page",
+						"in": "query",
+						"description": "Page number",
+						"required": true,
+						"schema": {
+							"type": "number",
+							"example": "1"
+						}
+					},
+					{
+						"name": "limit",
+						"in": "query",
+						"description": "Limit of restaurants per page",
+						"required": true,
+						"schema": {
+							"type": "number",
+							"example": "10"
+						}
+					},
+					{
+						"name": "categoriesId",
+						"in": "query",
+						"description": "Category id array",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"example": "1,2,3"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful Response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DishCreate"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Missing data or with any wrong.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Restaurant not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
 		"/cliente/restaurantes": {
 			"get": {
 				"tags": [
@@ -321,6 +414,26 @@
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/RestaurantPaginatedResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Missing data or with any wrong.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
 								}
 							}
 						}

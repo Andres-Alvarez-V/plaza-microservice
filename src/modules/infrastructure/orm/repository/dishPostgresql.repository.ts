@@ -1,5 +1,5 @@
 import { IDishRepository } from '../../../domain/repositories/dish.repository';
-import { Sequelize } from 'sequelize';
+import { Op, Sequelize, WhereOptions } from 'sequelize';
 import { SequelizePostgresqlConnection } from '../sequelizePostgresqlConnection';
 import { IDish } from '../../../domain/entities/dish';
 import { DISH_POSTGRESQL_TABLE } from '../models/DishPostgresql.model';
@@ -36,5 +36,29 @@ export class DishPostgresqlRepository implements IDishRepository {
 		}
 
 		return dish.toJSON() as IDish;
+	}
+
+	async getAllByPaginationFilter(
+		restaurantId: number,
+		page: number,
+		limit: number,
+		categories: number[] = [],
+	): Promise<IDish[]> {
+		let whereOptions: WhereOptions<any> = { id_restaurante: restaurantId };
+		if (categories.length > 0) {
+			whereOptions = {
+				...whereOptions,
+				id_categoria: {
+					[Op.in]: categories,
+				},
+			};
+		}
+		const dishes = await this.sequelize.models[DISH_POSTGRESQL_TABLE].findAll({
+			where: whereOptions,
+			offset: (page - 1) * limit,
+			limit,
+		});
+
+		return dishes.map((dish) => dish.toJSON() as IDish);
 	}
 }
