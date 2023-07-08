@@ -27,4 +27,14 @@ export class RestaurantPostgresqlRepository implements IRestaurantRepository {
 
 		return restaurant.toJSON() as IRestaurant;
 	}
+
+	async getAllByPagination(page: number, limit: number): Promise<IRestaurant[]> {
+		const restaurants = await this.sequelize.models[RESTAURANT_POSTGRESQL_TABLE].findAll({
+			order: [['nombre', 'ASC']],
+			offset: (page - 1) * limit,
+			limit,
+		});
+
+		return restaurants.map((restaurant) => restaurant.toJSON() as IRestaurant);
+	}
 }

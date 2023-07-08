@@ -19,4 +19,20 @@ export class RestaurantController {
 			next(error);
 		}
 	}
+
+	async getAllByPagination(req: Request, res: Response, next: NextFunction) {
+		try {
+			const { page, limit } = req.query;
+			const restaurants = await this.restaurantUsecase.getAllByPagination(
+				Number(page),
+				Number(limit),
+			);
+			res.status(HttpCode.OK).json({
+				message: 'Restaurants fetched successfully',
+				data: restaurants,
+			});
+		} catch (error) {
+			next(error);
+		}
+	}
 }

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import {
+	validatorPaginationParamsHandler,
 	validatorRoleHandler,
 	validatorSchemaHandler,
 } from '../../../src/modules/infrastructure/middlewares/validator.handler';
@@ -138,5 +139,45 @@ describe('validatorRoleHandler. If get "Un error ocurrio validando el error". Sh
 		expect(next).toHaveBeenCalledWith(
 			boom.badImplementation('Un error ocurrio validando el error'),
 		);
+	});
+});
+
+describe('validatorPaginationParamsHandler', () => {
+	let req: Partial<Request>;
+	let res: Partial<Response>;
+	let next: jest.Mock;
+
+	beforeEach(() => {
+		req = {
+			...req,
+			query: {
+				page: '1',
+				limit: '10',
+			},
+		};
+		res = {};
+		next = jest.fn();
+	});
+
+	afterEach(() => {
+		jest.clearAllMocks();
+	});
+	it('should call next without error if validation passes. It means that the validation is complete', () => {
+		validatorPaginationParamsHandler(req as Request, res as Response, next as NextFunction);
+		expect(next).toHaveBeenCalledTimes(1);
+		expect(next).toHaveBeenCalledWith();
+	});
+
+	it('should call next with error if validation fails', () => {
+		const newReq = {
+			...req,
+			query: {
+				page: 'string',
+				limit: 'string',
+			},
+		};
+		validatorPaginationParamsHandler(newReq as Request, res as Response, next as NextFunction);
+		expect(next).toHaveBeenCalledTimes(1);
+		expect(next).toHaveBeenCalledWith(expect.any(Error));
 	});
 });

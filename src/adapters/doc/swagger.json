@@ -225,7 +225,7 @@
 						}
 					}
 				],
-				"requestBody":{
+				"requestBody": {
 					"required": true,
 					"content": {
 						"application/json": {
@@ -284,6 +284,49 @@
 					}
 				}
 			}
+		},
+		"/cliente/restaurantes": {
+			"get": {
+				"tags": [
+					"Users"
+				],
+				"summary": "Get restaurants",
+				"description": "Get restaurants by page and limit parameters to get a clean response. \n\n**Example:**`/api/v1/cliente/restaurantes?page=1&limit=10`",
+				"parameters": [
+					{
+						"name": "page",
+						"in": "query",
+						"description": "Page number",
+						"required": true,
+						"schema": {
+							"type": "number",
+							"example": "1"
+						}
+					},
+					{
+						"name": "limit",
+						"in": "query",
+						"description": "Limit of restaurants per page",
+						"required": true,
+						"schema": {
+							"type": "number",
+							"example": "10"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful Response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RestaurantPaginatedResponse"
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	},
 	"components": {
@@ -316,6 +359,20 @@
 					},
 					"nit": {
 						"type": "string"
+					}
+				}
+			},
+			"RestaurantPaginatedResponse": {
+				"type": "array",
+				"items": {
+					"type": "object",
+					"properties": {
+						"nombre": {
+							"type": "string"
+						},
+						"urlLogo": {
+							"type": "string"
+						}
 					}
 				}
 			},

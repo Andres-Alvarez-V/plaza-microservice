@@ -53,3 +53,24 @@ export const validatorSchemaHandler = (schema: Schema, property: string) => {
 		next();
 	};
 };
+
+export const validatorPaginationParamsHandler = (
+	req: Request,
+	res: Response,
+	next: NextFunction,
+) => {
+	const { limit, page } = req.query;
+	const limitNumber = Number(limit);
+	const offsetNumber = Number(page);
+	if (isNaN(limitNumber) || isNaN(offsetNumber)) {
+		next(boom.badRequest('Los parámetros de paginación deben ser números'));
+
+		return;
+	}
+	if (limitNumber < 1 || offsetNumber < 0) {
+		next(boom.badRequest('Los parámetros de paginación deben ser positivos'));
+
+		return;
+	}
+	next();
+};

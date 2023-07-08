@@ -1,8 +1,6 @@
 import Joi from 'joi';
 import { IRestaurant } from '../../../domain/entities/restaurant';
 
-export interface ICreateRestaurantDTO extends Omit<IRestaurant, 'id'> {}
-
 const customMessages = {
 	'string.min': 'El campo {#label} debe tener al menos {#limit} caracteres',
 	'string.max': 'El campo {#label} debe tener como máximo {#limit} caracteres',
@@ -23,6 +21,7 @@ const phone = Joi.string().pattern(/^\+?[0-9]{10,13}$/);
 const logoUrl = Joi.string().uri();
 const nit = Joi.string().pattern(/^[0-9]{8,100}$/);
 
+export interface ICreateRestaurantDTO extends Omit<IRestaurant, 'id'> {}
 export const createRestaurantSchema = Joi.object<ICreateRestaurantDTO>({
 	nombre: name.required(),
 	direccion: address.required(),

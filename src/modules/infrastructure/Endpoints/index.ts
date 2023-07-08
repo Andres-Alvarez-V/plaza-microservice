@@ -1,6 +1,7 @@
 import express from 'express';
 import adminRouter from './admin.routes';
 import ownerRouter from './owner.routes';
+import clientRouter from './client.routes';
 
 function routes(app: express.Application) {
 	const router = express.Router();
@@ -10,6 +11,7 @@ function routes(app: express.Application) {
 	app.use('/api/v1', router);
 	router.use('/admin', adminRouter);
 	router.use('/propietario', ownerRouter);
+	router.use('/cliente', clientRouter);
 }
 
 export default routes;
