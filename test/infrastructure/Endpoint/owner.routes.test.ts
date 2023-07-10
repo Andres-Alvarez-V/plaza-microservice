@@ -61,10 +61,10 @@ describe('OwnerRoutes', () => {
 
 	describe('CreateEmployee - POST /propietario/crearEmpleado', () => {
 		const employeeMock: IEmployee = {
-			id_empleado: 30,
+			id_empleado: 2,
 			id_restaurante: 30,
 		};
-		test('should create a new employee with a 201 response. If get error check that the id_empleado doesnt exist in the DB', async () => {
+		test('should create a new employee with a 201 response. If get error check that the id_empleado doesnt exist in the DB and id_restaurante exist in the restaurant db', async () => {
 			const response = await request(app)
 				.post('/api/v1/propietario/agregarEmpleado')
 				.set('Authorization', `Bearer ${process.env.JWT_OWNER_TOKEN_TEST}`)

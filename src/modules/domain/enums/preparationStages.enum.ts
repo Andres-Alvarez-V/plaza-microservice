@@ -1,0 +1,7 @@
+export enum PreparationStages {
+	PENDING = 'PENDIENTE',
+	CANCELED = 'CANCELADO',
+	IN_PREPARATION = 'EN_PREPARACION',
+	READY = 'LISTO',
+	DELIVERED = 'ENTREGADO',
+}

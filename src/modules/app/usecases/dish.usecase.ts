@@ -71,7 +71,6 @@ export class DishUsecase {
 		restaurantId: number,
 		categories: number[] | [],
 	) {
-		console.log('categories', categories);
 		const restaurant = await this.restaurantRepository.findById(restaurantId);
 		if (!restaurant) {
 			throw boom.notFound('Restaurante no encontrado');

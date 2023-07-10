@@ -133,7 +133,9 @@ describe('validatorRoleHandler. If get "Un error ocurrio validando el error". Sh
 				id_propietario: 4, // Este usuario es de rol empleado
 			},
 		};
-		jest.spyOn(axios, 'get').mockRejectedValueOnce(new Error('Error'));
+		jest
+			.spyOn(axios, 'get')
+			.mockRejectedValueOnce(new Error('Un error ocurrio validando el error'));
 		await validatorRoleHandler(role)(newReq as Request, res as Response, next as NextFunction);
 		expect(next).toHaveBeenCalledTimes(1);
 		expect(next).toHaveBeenCalledWith(

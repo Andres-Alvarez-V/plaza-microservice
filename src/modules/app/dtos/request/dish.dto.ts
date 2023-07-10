@@ -9,6 +9,7 @@ const customMessages = {
 	'any.required': 'El campo {#label} es requerido',
 	'any.unknown': 'El campo {#label} no es permitido',
 	'number.base': 'El campo {#label} debe ser un número',
+	'boolean.base': 'El campo {#label} debe ser un booleano',
 };
 
 const name = Joi.string().min(3).max(100);

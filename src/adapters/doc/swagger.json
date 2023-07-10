@@ -440,6 +440,77 @@
 					}
 				}
 			}
+		},
+		"/cliente/crearPedido": {
+			"post": {
+				"tags": [
+					"Users"
+				],
+				"summary": "Create order",
+				"description": "Create a new order",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/OrderRequest"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Successful Response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SuccessfulResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Missing data or with any wrong.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "User/Restaurant/Dish not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					},
+					"409":{
+						"description": "You could have an active order in progress.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	},
 	"components": {
@@ -523,30 +594,33 @@
 						"type": "string",
 						"default": "undefined"
 					}
-				},
-				"SuccessfulResponse": {
-					"type": "object",
-					"properties": {
-						"message": {
-							"type": "string",
-							"example": "successful confirmation message"
-						}
-					}
-				},
-				"FailResponse": {
-					"type": "object",
-					"properties": {
-						"statusCode": {
-							"type": "number",
-							"example": "http status code"
-						},
-						"errorMessage": {
-							"type": "string",
-							"example": "fail message"
-						}
-					}
 				}
 			},
+			"DishChosen":{
+        "type": "object",
+        "properties": {
+          "id_plato": {
+            "type": "integer"
+          },
+          "cantidad": {
+            "type": "integer"
+          }
+        }
+      },
+      "OrderRequest": {
+        "type": "object",
+        "properties": {
+          "id_restaurante": {
+            "type": "integer"
+          },
+          "platos_escogidos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DishChosen"
+            }
+          }
+        }
+      },
 			"SuccessfulResponse": {
 				"type": "object",
 				"properties": {
