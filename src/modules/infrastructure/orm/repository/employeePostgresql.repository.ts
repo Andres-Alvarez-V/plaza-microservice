@@ -19,4 +19,10 @@ export class EmployeePostgresqlRepository implements IEmployeeRepository {
 
 		return newEmployee as IEmployee;
 	}
+
+	async getEmployeeByEmployeeId(id: number): Promise<IEmployee | null> {
+		const employee = await this.sequelize.models[EMPLOYEE_POSTGRESQL_TABLE].findByPk(id);
+
+		return employee ? (employee.toJSON() as IEmployee) : null;
+	}
 }

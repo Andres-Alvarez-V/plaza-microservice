@@ -59,7 +59,7 @@ export const validatorPaginationParamsHandler = (
 
 		return;
 	}
-	if (limitNumber < 1 || offsetNumber < 0) {
+	if (limitNumber < 1 || offsetNumber < 1) {
 		next(boom.badRequest('Los parámetros de paginación deben ser positivos'));
 
 		return;

@@ -92,4 +92,69 @@ describe('OrderPostgresqlRepository', () => {
 			expect(result).toEqual(expectedOrders);
 		});
 	});
+
+	describe('getOrdersPaginatedByRestaurantIdFilteredByStages', () => {
+		it('should get orders by restaurant ID and filter by stages', async () => {
+			const restaurantId = 123;
+			const stages = [PreparationStages.DELIVERED, PreparationStages.IN_PREPARATION];
+			const page = 1;
+			const limit = 10;
+
+			const expectedWhereOptions = {
+				id_restaurante: restaurantId,
+				estado: {
+					[Op.in]: stages,
+				},
+			};
+
+			const expectedOrders: IOrder[] = [];
+
+			const findAllMock = sequelizeMock.models[ORDER_POSTGRESQL_TABLE].findAll;
+			findAllMock.mockResolvedValue(expectedOrders);
+
+			const result = await orderRepository.getOrdersPaginatedByRestaurantIdFilteredByStages(
+				restaurantId,
+				stages,
+				page,
+				limit,
+			);
+
+			expect(findAllMock).toHaveBeenCalledWith({
+				where: expectedWhereOptions,
+				limit,
+				offset: (page - 1) * limit,
+			});
+			expect(result).toEqual(expectedOrders);
+		});
+
+		it('should get orders by restaurant ID without filtering stages if stages array is empty', async () => {
+			const restaurantId = 123;
+			const stages: PreparationStages[] = [];
+			const page = 1;
+			const limit = 10;
+
+			const expectedWhereOptions = {
+				id_restaurante: restaurantId,
+			};
+
+			const expectedOrders: IOrder[] = [];
+
+			const findAllMock = sequelizeMock.models[ORDER_POSTGRESQL_TABLE].findAll;
+			findAllMock.mockResolvedValue(expectedOrders);
+
+			const result = await orderRepository.getOrdersPaginatedByRestaurantIdFilteredByStages(
+				restaurantId,
+				stages,
+				page,
+				limit,
+			);
+
+			expect(findAllMock).toHaveBeenCalledWith({
+				where: expectedWhereOptions,
+				limit,
+				offset: (page - 1) * limit,
+			});
+			expect(result).toEqual(expectedOrders);
+		});
+	});
 });

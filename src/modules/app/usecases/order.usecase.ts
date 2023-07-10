@@ -7,6 +7,7 @@ import { IOrderRepository } from '../../domain/repositories/order.repository';
 import { IOrderDishRepository } from '../../domain/repositories/order_dish.repository';
 import { IUserMicroservice } from '../../domain/microservices/user.microservice';
 import boom from '@hapi/boom';
+import { IEmployeeRepository } from '../../domain/repositories/employee.repository';
 
 export class OrderUsecase {
 	constructor(
@@ -14,6 +15,7 @@ export class OrderUsecase {
 		private readonly traceabilityMicroservice: ITraceabilityMicroservice,
 		private readonly orderDishRepository: IOrderDishRepository,
 		private readonly userMicroservice: IUserMicroservice,
+		private readonly employeeRepository: IEmployeeRepository,
 	) {}
 
 	async create(order: IOrderRequest, jwtPayload: IJWTPayload, token: string) {
@@ -53,5 +55,25 @@ export class OrderUsecase {
 		await this.traceabilityMicroservice.createTraceability(newTraceabilityData, token);
 
 		return orderCreated;
+	}
+
+	async getOrdersFilteredByStages(
+		jwtPayload: IJWTPayload,
+		stages: PreparationStages[],
+		page: number,
+		limit: number,
+	) {
+		const employee = await this.employeeRepository.getEmployeeByEmployeeId(jwtPayload.id);
+		if (!employee) {
+			throw boom.notFound('No se encontró el empleado');
+		}
+		const orders = await this.orderRepository.getOrdersPaginatedByRestaurantIdFilteredByStages(
+			employee.id_restaurante,
+			stages,
+			page,
+			limit,
+		);
+
+		return orders;
 	}
 }

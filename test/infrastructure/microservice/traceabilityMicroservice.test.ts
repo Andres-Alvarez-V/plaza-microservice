@@ -7,8 +7,9 @@ jest.mock('axios');
 
 describe('TraceabilityMicroservice', () => {
 	let traceabilityMicroservice: TraceabilityMicroservice;
-
+	
 	beforeEach(() => {
+		process.env.TRAZABILITY_MICROSERVICE_BASE_URL = 'test-url';
 		traceabilityMicroservice = new TraceabilityMicroservice();
 	});
 
@@ -30,7 +31,6 @@ describe('TraceabilityMicroservice', () => {
 
 			(axios.post as any).mockResolvedValueOnce({ status: 201 });
 
-			process.env.TRAZABILITY_MICROSERVICE_BASE_URL = expectedUrl;
 
 			await traceabilityMicroservice.createTraceability(trazability, token);
 
@@ -54,8 +54,6 @@ describe('TraceabilityMicroservice', () => {
 			const token = 'test-token';
 
 			(axios.post as any).mockResolvedValueOnce({ status: 500 });
-
-			process.env.TRAZABILITY_MICROSERVICE_BASE_URL = 'test-url';
 
 			await expect(traceabilityMicroservice.createTraceability(trazability, token)).rejects.toThrow(
 				'Error al crear la trazabilidad',

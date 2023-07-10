@@ -36,6 +36,7 @@ const orderUseCase = new OrderUsecase(
 	traceabilityMicroservice,
 	orderDishRepository,
 	userMicroservice,
+	employeeRepository,
 );
 
 // Controllers

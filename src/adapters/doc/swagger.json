@@ -499,12 +499,98 @@
 							}
 						}
 					},
-					"409":{
+					"409": {
 						"description": "You could have an active order in progress.",
 						"content": {
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/empleado/pedidos": {
+			"get": {
+				"tags": [
+					"Users"
+				],
+				"summary": "Get orders",
+				"description": "Get orders from your restaurant paginated by page and limit parameters to get a clean response, filtering by preparation stages. The params are not required, by default it filter by all stages and page=1 and limit=10. \n\n**Example:**`/api/v1/empleado/pedidos?page=1&limit=10&estados=LISTO,PENDIENTE,EN_PREPARACION` \n\n\n**Estados:**\n\n* PENDIENTE\n* CANCELADO\n* EN_PREPARACION\n* LISTO\n* ENTREGADO",
+				"parameters": [
+					{
+						"name": "page",
+						"in": "query",
+						"description": "Page number",
+						"required": false,
+						"schema": {
+							"type": "number",
+							"example": "1"
+						}
+					},
+					{
+						"name": "limit",
+						"in": "query",
+						"description": "Limit of restaurants per page",
+						"required": false,
+						"schema": {
+							"type": "number",
+							"example": "10"
+						}
+					},
+					{
+						"name": "estados",
+						"in": "query",
+						"description": "Order status array",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"example": "LISTO,PENDIENTE,EN_PREPARACION"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful Response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/OrderSchema"
+									}
+								}
+							}
+						}
+					},
+					"400":{
+						"description": "Missing data or with any wrong.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"	
+								}
+							}
+						}
+					},
+					"401":{
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"	
+								}
+							}
+						}
+					},
+					"404":{
+						"description": "User not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"	
 								}
 							}
 						}
@@ -596,31 +682,54 @@
 					}
 				}
 			},
-			"DishChosen":{
-        "type": "object",
-        "properties": {
-          "id_plato": {
-            "type": "integer"
-          },
-          "cantidad": {
-            "type": "integer"
-          }
-        }
-      },
-      "OrderRequest": {
-        "type": "object",
-        "properties": {
-          "id_restaurante": {
-            "type": "integer"
-          },
-          "platos_escogidos": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DishChosen"
-            }
-          }
-        }
-      },
+			"DishChosen": {
+				"type": "object",
+				"properties": {
+					"id_plato": {
+						"type": "integer"
+					},
+					"cantidad": {
+						"type": "integer"
+					}
+				}
+			},
+			"OrderRequest": {
+				"type": "object",
+				"properties": {
+					"id_restaurante": {
+						"type": "integer"
+					},
+					"platos_escogidos": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/DishChosen"
+						}
+					}
+				}
+			},
+			"OrderSchema": {
+				"type": "object",
+				"properties": {
+					"id_pedido": {
+						"type": "integer"
+					},
+					"id_cliente": {
+						"type": "integer"
+					},
+					"fecha": {
+						"type": "string"
+					},
+					"estado": {
+						"type": "string"
+					},
+					"id_chef":{
+						"type": "integer"
+					},
+					"id_restaurante": {
+						"type": "integer"
+					}
+				}
+			},
 			"SuccessfulResponse": {
 				"type": "object",
 				"properties": {

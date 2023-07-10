@@ -18,20 +18,41 @@ export class OrderPostgresqlRepository implements IOrderRepository {
 		return newOrder as IOrder;
 	}
 
+	private addStageFilter(stages: PreparationStages[], whereOptions: WhereOptions<any>) {
+		return stages.length > 0
+			? {
+					...whereOptions,
+					estado: {
+						[Op.in]: stages,
+					},
+			  }
+			: whereOptions;
+	}
+
 	async getOrdersByClientIdFilteredByStages(clientId: number, stages: PreparationStages[]) {
 		let whereOptions: WhereOptions<any> = { id_cliente: clientId };
-		if (stages.length > 0) {
-			whereOptions = {
-				...whereOptions,
-				estado: {
-					[Op.in]: stages,
-				},
-			};
-		}
-		const orderedDishes = await this.sequelize.models[ORDER_POSTGRESQL_TABLE].findAll({
+		whereOptions = this.addStageFilter(stages, whereOptions);
+		const orders = await this.sequelize.models[ORDER_POSTGRESQL_TABLE].findAll({
 			where: whereOptions,
 		});
 
-		return orderedDishes.map((orderedDish) => orderedDish.toJSON()) as IOrder[];
+		return orders.map((order) => order.toJSON()) as IOrder[];
+	}
+
+	async getOrdersPaginatedByRestaurantIdFilteredByStages(
+		restaurantId: number,
+		stages: PreparationStages[],
+		page: number,
+		limit: number,
+	) {
+		let whereOptions: WhereOptions<any> = { id_restaurante: restaurantId };
+		whereOptions = this.addStageFilter(stages, whereOptions);
+		const orders = await this.sequelize.models[ORDER_POSTGRESQL_TABLE].findAll({
+			where: whereOptions,
+			limit,
+			offset: (page - 1) * limit,
+		});
+
+		return orders.map((order) => order.toJSON()) as IOrder[];
 	}
 }

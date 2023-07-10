@@ -7,4 +7,10 @@ export interface IOrderRepository {
 		clientId: number,
 		stages: PreparationStages[],
 	): Promise<IOrder[]>;
+	getOrdersPaginatedByRestaurantIdFilteredByStages(
+		restaurantId: number,
+		stages: PreparationStages[],
+		page: number,
+		limit: number,
+	): Promise<IOrder[]>;
 }
