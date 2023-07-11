@@ -1,6 +1,11 @@
 import { IJWTPayload } from '../../domain/entities/JWTPayload';
-import { IDishChosen, IOrderCreate, IOrderRequest } from '../../domain/entities/order';
-import { ITraceabilityCreate } from '../../domain/entities/traceability';
+import {
+	IDishChosen,
+	IOrderCreate,
+	IOrderRequest,
+	IUpdateOrder,
+} from '../../domain/entities/order';
+import { ITraceabilityCreate, IUpdateTraceability } from '../../domain/entities/traceability';
 import { PreparationStages } from '../../domain/enums/preparationStages.enum';
 import { ITraceabilityMicroservice } from '../../domain/microservices/traceability.microservice';
 import { IOrderRepository } from '../../domain/repositories/order.repository';
@@ -75,5 +80,42 @@ export class OrderUsecase {
 		);
 
 		return orders;
+	}
+
+	async assingOrder(orderId: number, jwtPayload: IJWTPayload, token: string) {
+		const orderToUpdate = await this.orderRepository.getOrderById(orderId);
+		if (!orderToUpdate) {
+			throw boom.notFound('No se encontró el pedido');
+		}
+		if (orderToUpdate.estado !== PreparationStages.PENDING) {
+			throw boom.conflict('El pedido no está en estado pendiente');
+		}
+		const dataToUpdate: IUpdateOrder = {
+			estado: PreparationStages.IN_PREPARATION,
+			id_chef: jwtPayload.id as number,
+		};
+		const chef = await this.employeeRepository.getEmployeeByEmployeeId(
+			dataToUpdate.id_chef as number,
+		);
+		if (!chef) {
+			throw boom.notFound('No se encontró el chef');
+		}
+
+		if (chef.id_restaurante !== orderToUpdate.id_restaurante) {
+			throw boom.conflict('El chef no pertenece al restaurante del pedido');
+		}
+
+		const updatedOrder = await this.orderRepository.updateOrder(orderId, dataToUpdate);
+
+		const chefEmail = await this.userMicroservice.getUserEmail(chef.id_empleado);
+		const newTraceabilityData: IUpdateTraceability = {
+			id_empleado: chef.id_empleado,
+			estado_anterior: orderToUpdate.estado,
+			estado_nuevo: dataToUpdate.estado as PreparationStages,
+			correo_empleado: chefEmail,
+		};
+		await this.traceabilityMicroservice.assingOrder(newTraceabilityData, orderId, token);
+
+		return updatedOrder;
 	}
 }

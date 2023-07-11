@@ -20,4 +20,11 @@ router.get(
 	orderController.getOrdersFilteredByStages.bind(orderController),
 );
 
+router.put(
+	'/asignarPedido/:id_pedido',
+	passport.authenticate('jwt', { session: false }),
+	validatorCheckRole(RoleType.EMPLOYEE),
+	orderController.assingOrder.bind(orderController),
+);
+
 export default router;

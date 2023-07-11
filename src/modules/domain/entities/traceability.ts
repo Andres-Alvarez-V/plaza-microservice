@@ -14,3 +14,5 @@ export interface ITraceability {
 
 export interface ITraceabilityCreate
 	extends Omit<ITraceability, '_id' | 'correo_empleado' | 'id_empleado' | 'estado_anterior'> {}
+
+export interface IUpdateTraceability extends Partial<Omit<ITraceability, '_id'>> {}

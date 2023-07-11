@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./dist/src/server.js",
     "dev": "ts-node-dev ./src/main.ts",
-    "test": "cross-env NODE_ENV=test jest -t 'getOrdersPaginatedByRestaurantIdFilteredByStages'",
+    "test": "cross-env NODE_ENV=test jest -t 'OrderUsecase'",
     "test:verbose": "cross-env NODE_ENV=test jest --verbose",
     "test:coverage": "cross-env NODE_ENV=test jest --coverage",
     "build": "tsc",

@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import { IOrder, IOrderCreate } from '../../../../src/modules/domain/entities/order';
+import { IOrder, IOrderCreate, IUpdateOrder } from '../../../../src/modules/domain/entities/order';
 import { PreparationStages } from '../../../../src/modules/domain/enums/preparationStages.enum';
 import { ORDER_POSTGRESQL_TABLE } from '../../../../src/modules/infrastructure/orm/models/OrderPostgresql.model';
 import { OrderPostgresqlRepository } from '../../../../src/modules/infrastructure/orm/repository/orderPostgresql.repository';
@@ -9,12 +9,19 @@ jest.mock('../../../../src/modules/infrastructure/orm/sequelizePostgresqlConnect
 
 describe('OrderPostgresqlRepository', () => {
 	let orderRepository: OrderPostgresqlRepository;
+	const orderId = 123;
+	const clientId = 12;
 	const orderDataMock: IOrderCreate = {
-		id_cliente: 1,
+		id_cliente: clientId,
 		fecha: new Date(),
 		estado: PreparationStages.PENDING,
 		id_chef: 1,
 		id_restaurante: 1,
+	};
+	const orderDataUpdatedMock: IUpdateOrder = {
+		...orderDataMock,
+		estado: PreparationStages.IN_PREPARATION,
+		id_chef: 13,
 	};
 	let sequelizeMock: any;
 
@@ -25,10 +32,11 @@ describe('OrderPostgresqlRepository', () => {
 					create: jest.fn().mockResolvedValue({
 						toJSON: jest.fn().mockReturnValue({
 							...orderDataMock,
-							id: 1,
+							id: orderId,
 						}),
 					}),
 					findAll: jest.fn().mockResolvedValue([]),
+					update: jest.fn().mockResolvedValue([]),
 				},
 			},
 		};
@@ -42,7 +50,7 @@ describe('OrderPostgresqlRepository', () => {
 
 			expect(createdOrder).toEqual({
 				...orderDataMock,
-				id: 1,
+				id: orderId,
 			});
 			expect(sequelizeMock.models[ORDER_POSTGRESQL_TABLE].create).toHaveBeenCalledWith(
 				orderDataMock,
@@ -52,7 +60,6 @@ describe('OrderPostgresqlRepository', () => {
 
 	describe('getOrdersByClientIdFilteredByStages', () => {
 		it('should get orders by client ID and filter by stages', async () => {
-			const clientId = 123;
 			const stages = [PreparationStages.DELIVERED, PreparationStages.IN_PREPARATION];
 
 			const expectedWhereOptions = {
@@ -74,7 +81,6 @@ describe('OrderPostgresqlRepository', () => {
 		});
 
 		it('should get orders by client ID without filtering stages if stages array is empty', async () => {
-			const clientId = 123;
 			const stages: PreparationStages[] = [];
 
 			const expectedWhereOptions = {
@@ -155,6 +161,36 @@ describe('OrderPostgresqlRepository', () => {
 				offset: (page - 1) * limit,
 			});
 			expect(result).toEqual(expectedOrders);
+		});
+	});
+
+	describe('updateOrder', () => {
+		it('should update an order', async () => {
+			const order: IUpdateOrder = {
+				estado: PreparationStages.IN_PREPARATION,
+				id_chef: orderDataMock.id_chef,
+			};
+
+			const updateMock = sequelizeMock.models[ORDER_POSTGRESQL_TABLE].update;
+			updateMock.mockResolvedValue([
+				1,
+				[
+					{
+						toJSON: jest.fn().mockReturnValue({ ...orderDataUpdatedMock, id: orderId }),
+					},
+				],
+			]);
+
+			const result = await orderRepository.updateOrder(orderId, order);
+
+			expect(updateMock).toHaveBeenCalledWith(order, {
+				where: { id: orderId },
+				returning: true,
+			});
+			expect(result).toEqual({
+				...orderDataUpdatedMock,
+				id: orderId,
+			});
 		});
 	});
 });

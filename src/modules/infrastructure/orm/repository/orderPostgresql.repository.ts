@@ -1,6 +1,6 @@
 import { Op, Sequelize, WhereOptions } from 'sequelize';
 import { IOrderRepository } from '../../../domain/repositories/order.repository';
-import { IOrder, IOrderCreate } from '../../../domain/entities/order';
+import { IOrder, IOrderCreate, IUpdateOrder } from '../../../domain/entities/order';
 import { ORDER_POSTGRESQL_TABLE } from '../models/OrderPostgresql.model';
 import { SequelizePostgresqlConnection } from '../sequelizePostgresqlConnection';
 import { PreparationStages } from '../../../domain/enums/preparationStages.enum';
@@ -54,5 +54,25 @@ export class OrderPostgresqlRepository implements IOrderRepository {
 		});
 
 		return orders.map((order) => order.toJSON()) as IOrder[];
+	}
+
+	async updateOrder(orderId: number, order: IUpdateOrder) {
+		const updateOrder = (
+			await this.sequelize.models[ORDER_POSTGRESQL_TABLE].update(order, {
+				where: { id: orderId },
+				returning: true,
+			})
+		)[1][0].toJSON();
+
+		return updateOrder as IOrder;
+	}
+
+	async getOrderById(orderId: number) {
+		const order = await this.sequelize.models[ORDER_POSTGRESQL_TABLE].findByPk(orderId);
+		if (order) {
+			return order.toJSON() as IOrder;
+		}
+
+		return null;
 	}
 }

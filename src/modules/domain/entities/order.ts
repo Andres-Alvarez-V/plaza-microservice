@@ -18,3 +18,5 @@ export interface IOrderRequest {
 	id_restaurante: number;
 	platos_escogidos: IDishChosen[];
 }
+
+export interface IUpdateOrder extends Partial<IOrderCreate> {}

@@ -1,6 +1,7 @@
 import { OrderUsecase } from '../../../src/modules/app/usecases/order.usecase';
 import { IJWTPayload } from '../../../src/modules/domain/entities/JWTPayload';
 import { IOrderRequest, IOrder } from '../../../src/modules/domain/entities/order';
+import { IUpdateTraceability } from '../../../src/modules/domain/entities/traceability';
 import { PreparationStages } from '../../../src/modules/domain/enums/preparationStages.enum';
 import { RoleType } from '../../../src/modules/domain/enums/role-type.enum';
 import { TraceabilityMicroservice } from '../../../src/modules/infrastructure/microservices/traceabilityMicroservice';
@@ -8,6 +9,7 @@ import { UserMicroservice } from '../../../src/modules/infrastructure/microservi
 import { EmployeePostgresqlRepository } from '../../../src/modules/infrastructure/orm/repository/employeePostgresql.repository';
 import { OrderPostgresqlRepository } from '../../../src/modules/infrastructure/orm/repository/orderPostgresql.repository';
 import { OrderDishPostgresqlRepository } from '../../../src/modules/infrastructure/orm/repository/order_dishPostgresql.repository';
+import boom from '@hapi/boom';
 
 describe('OrderUsecase', () => {
 	let orderUsecase: OrderUsecase;
@@ -42,9 +44,12 @@ describe('OrderUsecase', () => {
 		mockOrderRepository.create = jest.fn();
 		mockOrderRepository.getOrdersByClientIdFilteredByStages = jest.fn();
 		mockOrderRepository.getOrdersPaginatedByRestaurantIdFilteredByStages = jest.fn();
+		mockOrderRepository.getOrderById = jest.fn();
+		mockOrderRepository.updateOrder = jest.fn();
 
 		mockTraceabilityMicroservice = new TraceabilityMicroservice();
 		mockTraceabilityMicroservice.createTraceability = jest.fn();
+		mockTraceabilityMicroservice.assingOrder = jest.fn();
 
 		mockOrderDishRepository = new OrderDishPostgresqlRepository();
 		mockOrderDishRepository.createOrderedDishes = jest.fn();
@@ -166,6 +171,94 @@ describe('OrderUsecase', () => {
 				10,
 			);
 			await expect(result).rejects.toThrow('No se encontró el empleado');
+		});
+	});
+
+	describe('assingOrder', () => {
+		const orderId = 1;
+		const mockGetEmployeeResolved = {
+			id_empleado: 123,
+			id_restaurante: 1,
+		};
+		const mockGetOrderResolved = {
+			id: 1,
+			id_cliente: 1,
+			fecha: new Date(),
+			estado: PreparationStages.PENDING,
+			id_chef: null,
+			id_restaurante: 1,
+		};
+		const mockUserEmailResolved = 'test@email.com';
+		const dataToUpdate = {
+			estado: PreparationStages.IN_PREPARATION,
+			id_chef: mockGetEmployeeResolved.id_empleado,
+		};
+		const newTraceabilityData: IUpdateTraceability = {
+			id_empleado: mockGetEmployeeResolved.id_empleado,
+			estado_anterior: mockGetOrderResolved.estado,
+			estado_nuevo: dataToUpdate.estado,
+			correo_empleado: mockUserEmailResolved,
+		};
+
+		it('should assign an order successfully', async () => {
+			(mockOrderRepository.getOrderById as any).mockResolvedValue(mockGetOrderResolved);
+			(mockEmployeeRepository.getEmployeeByEmployeeId as any).mockResolvedValue(
+				mockGetEmployeeResolved,
+			);
+			(mockOrderRepository.updateOrder as any).mockResolvedValue();
+			(mockUserMicroservice.getUserEmail as any).mockResolvedValue(mockUserEmailResolved);
+			(mockTraceabilityMicroservice.assingOrder as any).mockResolvedValue();
+
+			await orderUsecase.assingOrder(orderId, jwtPayload, token);
+			expect(mockOrderRepository.getOrderById).toHaveBeenCalledWith(orderId);
+			expect(mockEmployeeRepository.getEmployeeByEmployeeId).toHaveBeenCalledWith(jwtPayload.id);
+			expect(mockOrderRepository.updateOrder).toHaveBeenCalledWith(orderId, dataToUpdate);
+			expect(mockUserMicroservice.getUserEmail).toHaveBeenCalledWith(
+				mockGetEmployeeResolved.id_empleado,
+			);
+			expect(mockTraceabilityMicroservice.assingOrder).toHaveBeenCalledWith(
+				newTraceabilityData,
+				orderId,
+				token,
+			);
+		});
+
+		it('should throw an error 404 if the order does not exist', async () => {
+			(mockOrderRepository.getOrderById as any).mockResolvedValue(null);
+			const result = orderUsecase.assingOrder(orderId, jwtPayload, token);
+			await expect(result).rejects.toThrow(boom.notFound('No se encontró el pedido'));
+		});
+
+		it('should throw an error of type conflict 409 if the order is not in a PENDING State ', async () => {
+			(mockOrderRepository.getOrderById as any).mockResolvedValue({
+				id: 1,
+				id_cliente: 1,
+				fecha: new Date(),
+				estado: PreparationStages.IN_PREPARATION,
+				id_chef: null,
+				id_restaurante: 1,
+			});
+			const result = orderUsecase.assingOrder(orderId, jwtPayload, token);
+			await expect(result).rejects.toThrow(boom.conflict('El pedido no está en estado pendiente'));
+		});
+
+		it('should throw an error 404 if the employee does not exist', async () => {
+			(mockOrderRepository.getOrderById as any).mockResolvedValue(mockGetOrderResolved);
+			(mockEmployeeRepository.getEmployeeByEmployeeId as any).mockResolvedValue(null);
+			const result = orderUsecase.assingOrder(orderId, jwtPayload, token);
+			await expect(result).rejects.toThrow(boom.notFound('No se encontró el chef'));
+		});
+
+		it('should throw an error if the employee is not from the same restaurant as the order', async () => {
+			(mockOrderRepository.getOrderById as any).mockResolvedValue(mockGetOrderResolved);
+			(mockEmployeeRepository.getEmployeeByEmployeeId as any).mockResolvedValue({
+				id_empleado: 1,
+				id_restaurante: 2,
+			});
+			const result = orderUsecase.assingOrder(orderId, jwtPayload, token);
+			await expect(result).rejects.toThrow(
+				boom.conflict('El chef no pertenece al restaurante del pedido'),
+			);
 		});
 	});
 });
