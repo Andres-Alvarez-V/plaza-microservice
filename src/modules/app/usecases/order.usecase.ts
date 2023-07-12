@@ -13,6 +13,7 @@ import { IOrderDishRepository } from '../../domain/repositories/order_dish.repos
 import { IUserMicroservice } from '../../domain/microservices/user.microservice';
 import boom from '@hapi/boom';
 import { IEmployeeRepository } from '../../domain/repositories/employee.repository';
+import { ITwilioMicroservice } from '../../domain/microservices/twilio.microservice';
 
 export class OrderUsecase {
 	constructor(
@@ -21,6 +22,7 @@ export class OrderUsecase {
 		private readonly orderDishRepository: IOrderDishRepository,
 		private readonly userMicroservice: IUserMicroservice,
 		private readonly employeeRepository: IEmployeeRepository,
+		private readonly twilioMicroservice: ITwilioMicroservice,
 	) {}
 
 	async create(order: IOrderRequest, jwtPayload: IJWTPayload, token: string) {
@@ -39,6 +41,7 @@ export class OrderUsecase {
 			estado: PreparationStages.PENDING,
 			id_chef: null,
 			id_restaurante: order.id_restaurante,
+			codigo_verificacion: null,
 		};
 		const clientEmail = await this.userMicroservice.getUserEmail(jwtPayload.id);
 		const orderCreated = await this.orderRepository.create(newDataOrder);
@@ -115,6 +118,50 @@ export class OrderUsecase {
 			correo_empleado: chefEmail,
 		};
 		await this.traceabilityMicroservice.assingOrder(newTraceabilityData, orderId, token);
+
+		return updatedOrder;
+	}
+
+	private generateVerificationCode() {
+		const codeLength = 6;
+		const min = Math.pow(10, codeLength - 1);
+		const max = Math.pow(10, codeLength) - 1;
+
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+
+	async asingOrderReady(orderId: number, jwtPayload: IJWTPayload, token: string) {
+		const orderToUpdate = await this.orderRepository.getOrderById(orderId);
+		if (!orderToUpdate) {
+			throw boom.notFound('No se encontró el pedido');
+		}
+		if (orderToUpdate.estado !== PreparationStages.IN_PREPARATION) {
+			throw boom.conflict('El pedido no está en estado en preparación');
+		}
+		const employee = await this.employeeRepository.getEmployeeByEmployeeId(jwtPayload.id as number);
+		if (!employee) {
+			throw boom.notFound('No se encontró el empleado');
+		}
+
+		if (employee.id_restaurante !== orderToUpdate.id_restaurante) {
+			throw boom.conflict('El empleado no pertenece al restaurante del pedido');
+		}
+		const verificationCode = this.generateVerificationCode().toString();
+		const message = `Tu pedido esta listo!! Para reclamar tu pedido di el siguiente codigo al empleado del restaurante cuando te lo requiera: ${verificationCode}`;
+		await this.twilioMicroservice.sendSms(message);
+
+		const dataToUpdate: IUpdateOrder = {
+			estado: PreparationStages.READY,
+			codigo_verificacion: verificationCode,
+		};
+
+		const updatedOrder = await this.orderRepository.updateOrder(orderId, dataToUpdate);
+
+		const newTraceabilityData: IUpdateTraceability = {
+			estado_anterior: orderToUpdate.estado,
+			estado_nuevo: dataToUpdate.estado as PreparationStages,
+		};
+		await this.traceabilityMicroservice.updateStage(newTraceabilityData, orderId, token);
 
 		return updatedOrder;
 	}

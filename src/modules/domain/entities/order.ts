@@ -7,6 +7,7 @@ export interface IOrder {
 	estado: PreparationStages;
 	id_chef: number | null;
 	id_restaurante: number;
+	codigo_verificacion: string | null;
 }
 
 export interface IOrderCreate extends Omit<IOrder, 'id'> {}

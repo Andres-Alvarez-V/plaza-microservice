@@ -652,6 +652,77 @@
 					}
 				}
 			}
+		},
+		"/empleado/asignarPedidoListo/{id_pedido}":{
+			"put": {
+				"tags": ["Users"],
+				"summary": "Assign order to ready state",
+				"description": "Assign an order to ready state and notify the client via SMS",
+				"parameters": [
+					{
+						"name": "id_pedido",
+						"in": "path",
+						"description": "ID del pedido a actualizar como listo",
+						"required": true,
+						"schema": {
+							"type": "number",
+							"example": "3"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful Response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SuccessfulResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Missing data or with any wrong.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "User/Order not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					},
+					"409": {
+						"description": "The order is not in PROGRESS state or you dont belong to the restaurant of the order.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					}
+				}
+			}	
 		}
 	},
 	"components": {

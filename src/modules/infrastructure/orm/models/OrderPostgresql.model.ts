@@ -37,6 +37,11 @@ export const OrderPostgresqlSchema = {
 		allowNull: false,
 		required: true,
 	},
+	codigo_verificacion: {
+		type: DataTypes.STRING,
+		allowNull: true,
+		required: false,
+	},
 };
 
 export class OrderPostgresql extends Model<IOrder, Omit<IOrder, 'id'>> implements IOrder {
@@ -46,6 +51,7 @@ export class OrderPostgresql extends Model<IOrder, Omit<IOrder, 'id'>> implement
 	public estado!: PreparationStages;
 	public id_chef!: number;
 	public id_restaurante!: number;
+	public codigo_verificacion!: string;
 	static config(sequelize: Sequelize) {
 		return {
 			sequelize,

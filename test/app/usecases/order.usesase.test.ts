@@ -5,6 +5,7 @@ import { IUpdateTraceability } from '../../../src/modules/domain/entities/tracea
 import { PreparationStages } from '../../../src/modules/domain/enums/preparationStages.enum';
 import { RoleType } from '../../../src/modules/domain/enums/role-type.enum';
 import { TraceabilityMicroservice } from '../../../src/modules/infrastructure/microservices/traceabilityMicroservice';
+import { TwilioMicroservice } from '../../../src/modules/infrastructure/microservices/twillio.microservice';
 import { UserMicroservice } from '../../../src/modules/infrastructure/microservices/userMicroservice';
 import { EmployeePostgresqlRepository } from '../../../src/modules/infrastructure/orm/repository/employeePostgresql.repository';
 import { OrderPostgresqlRepository } from '../../../src/modules/infrastructure/orm/repository/orderPostgresql.repository';
@@ -18,6 +19,7 @@ describe('OrderUsecase', () => {
 	let mockOrderDishRepository: OrderDishPostgresqlRepository;
 	let mockUserMicroservice: UserMicroservice;
 	let mockEmployeeRepository: EmployeePostgresqlRepository;
+	let mockTwilioMicroservice: TwilioMicroservice;
 	// Arrange
 	const order: IOrderRequest = {
 		id_restaurante: 123,
@@ -50,6 +52,7 @@ describe('OrderUsecase', () => {
 		mockTraceabilityMicroservice = new TraceabilityMicroservice();
 		mockTraceabilityMicroservice.createTraceability = jest.fn();
 		mockTraceabilityMicroservice.assingOrder = jest.fn();
+		mockTraceabilityMicroservice.updateStage = jest.fn();
 
 		mockOrderDishRepository = new OrderDishPostgresqlRepository();
 		mockOrderDishRepository.createOrderedDishes = jest.fn();
@@ -60,12 +63,16 @@ describe('OrderUsecase', () => {
 		mockEmployeeRepository = new EmployeePostgresqlRepository();
 		mockEmployeeRepository.getEmployeeByEmployeeId = jest.fn();
 
+		mockTwilioMicroservice = new TwilioMicroservice();
+		mockTwilioMicroservice.sendSms = jest.fn();
+
 		orderUsecase = new OrderUsecase(
 			mockOrderRepository,
 			mockTraceabilityMicroservice,
 			mockOrderDishRepository,
 			mockUserMicroservice,
 			mockEmployeeRepository,
+			mockTwilioMicroservice,
 		);
 	});
 
@@ -129,6 +136,7 @@ describe('OrderUsecase', () => {
 					estado: PreparationStages.DELIVERED,
 					id_chef: null,
 					id_restaurante: 1,
+					codigo_verificacion: null,
 				},
 				{
 					id: 13,
@@ -137,6 +145,7 @@ describe('OrderUsecase', () => {
 					estado: PreparationStages.PENDING,
 					id_chef: null,
 					id_restaurante: 1,
+					codigo_verificacion: null,
 				},
 			];
 
@@ -258,6 +267,100 @@ describe('OrderUsecase', () => {
 			const result = orderUsecase.assingOrder(orderId, jwtPayload, token);
 			await expect(result).rejects.toThrow(
 				boom.conflict('El chef no pertenece al restaurante del pedido'),
+			);
+		});
+	});
+
+	describe('asingOrderReady', () => {
+		const orderId = 1;
+		const verificationCode = '1234';
+
+		const mockGetEmployeeResolved = {
+			id_empleado: 123,
+			id_restaurante: 1,
+		};
+		const mockGetOrderResolved = {
+			id: 1,
+			id_cliente: 1,
+			fecha: new Date(),
+			estado: PreparationStages.IN_PREPARATION,
+			id_chef: 2,
+			id_restaurante: 1,
+			codigo_verificacion: null,
+		};
+		const dataToUpdate = {
+			estado: PreparationStages.READY,
+			codigo_verificacion: verificationCode,
+		};
+		const newTraceabilityData: IUpdateTraceability = {
+			estado_anterior: mockGetOrderResolved.estado,
+			estado_nuevo: dataToUpdate.estado,
+		};
+		it('should update order and send SMS successfully', async () => {
+			// Mockear los métodos y comportamientos necesarios de los repositorios y microservicios
+			const getOrderByIdSpy = jest
+				.spyOn(mockOrderRepository, 'getOrderById')
+				.mockResolvedValue(mockGetOrderResolved);
+			const getEmployeeByEmployeeIdSpy = jest
+				.spyOn(mockEmployeeRepository, 'getEmployeeByEmployeeId')
+				.mockResolvedValue(mockGetEmployeeResolved);
+			(orderUsecase as any).generateVerificationCode = jest.fn().mockReturnValue(verificationCode);
+			const sendSmsSpy = jest.spyOn(mockTwilioMicroservice, 'sendSms').mockResolvedValue();
+
+			await orderUsecase.asingOrderReady(orderId, jwtPayload, token);
+
+			expect(getOrderByIdSpy).toHaveBeenCalledWith(orderId);
+			expect(getEmployeeByEmployeeIdSpy).toHaveBeenCalledWith(jwtPayload.id as number);
+			expect(sendSmsSpy).toHaveBeenCalledWith(
+				expect.stringContaining(
+					`Tu pedido esta listo!! Para reclamar tu pedido di el siguiente codigo al empleado del restaurante cuando te lo requiera: ${verificationCode}`,
+				),
+			);
+			expect(mockOrderRepository.updateOrder).toHaveBeenCalledWith(orderId, dataToUpdate);
+			expect(mockTraceabilityMicroservice.updateStage).toHaveBeenCalledWith(
+				newTraceabilityData,
+				orderId,
+				token,
+			);
+		});
+
+		it('should throw error when order not found', async () => {
+			jest.spyOn(mockOrderRepository, 'getOrderById').mockResolvedValue(null);
+
+			await expect(orderUsecase.asingOrderReady(orderId, jwtPayload, token)).rejects.toThrow(
+				boom.notFound('No se encontró el pedido'),
+			);
+		});
+
+		it('should throw error when order is not in preparation stage', async () => {
+			jest.spyOn(mockOrderRepository, 'getOrderById').mockResolvedValue({
+				...mockGetOrderResolved,
+				estado: PreparationStages.READY,
+			});
+
+			await expect(orderUsecase.asingOrderReady(orderId, jwtPayload, token)).rejects.toThrow(
+				boom.conflict('El pedido no está en estado en preparación'),
+			);
+		});
+
+		it('should throw error when employee not found', async () => {
+			jest.spyOn(mockOrderRepository, 'getOrderById').mockResolvedValue(mockGetOrderResolved);
+			jest.spyOn(mockEmployeeRepository, 'getEmployeeByEmployeeId').mockResolvedValue(null);
+
+			await expect(orderUsecase.asingOrderReady(orderId, jwtPayload, token)).rejects.toThrow(
+				boom.notFound('No se encontró el empleado'),
+			);
+		});
+
+		it('should throw error when employee is not from the same restaurant as the order', async () => {
+			jest.spyOn(mockOrderRepository, 'getOrderById').mockResolvedValue(mockGetOrderResolved);
+			jest.spyOn(mockEmployeeRepository, 'getEmployeeByEmployeeId').mockResolvedValue({
+				id_empleado: 1,
+				id_restaurante: 2,
+			});
+
+			await expect(orderUsecase.asingOrderReady(orderId, jwtPayload, token)).rejects.toThrow(
+				boom.conflict('El empleado no pertenece al restaurante del pedido'),
 			);
 		});
 	});

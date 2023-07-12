@@ -14,6 +14,7 @@ import { OrderUsecase } from '../app/usecases/order.usecase';
 import { OrderPostgresqlRepository } from './orm/repository/orderPostgresql.repository';
 import { OrderDishPostgresqlRepository } from './orm/repository/order_dishPostgresql.repository';
 import { OrderController } from './controller/order.controller';
+import { TwilioMicroservice } from './microservices/twillio.microservice';
 
 // Repositories
 const restaurantRepository = new RestaurantPostgresqlRepository();
@@ -25,6 +26,7 @@ const orderDishRepository = new OrderDishPostgresqlRepository();
 
 // Microservices
 const traceabilityMicroservice = new TraceabilityMicroservice();
+const twilioMicroservice = new TwilioMicroservice();
 export const userMicroservice = new UserMicroservice();
 
 // Usecases
@@ -37,6 +39,7 @@ const orderUseCase = new OrderUsecase(
 	orderDishRepository,
 	userMicroservice,
 	employeeRepository,
+	twilioMicroservice,
 );
 
 // Controllers

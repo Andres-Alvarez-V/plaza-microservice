@@ -17,6 +17,7 @@ describe('OrderPostgresqlRepository', () => {
 		estado: PreparationStages.PENDING,
 		id_chef: 1,
 		id_restaurante: 1,
+		codigo_verificacion: null,
 	};
 	const orderDataUpdatedMock: IUpdateOrder = {
 		...orderDataMock,

@@ -80,4 +80,32 @@ describe('TraceabilityMicroservice', () => {
 			).rejects.toThrow(boom.internal('Error al asignar el pedido'));
 		});
 	});
+
+	describe('updateStage', () => {
+		const orderId = 1;
+		const traceability = {
+			estado_anterior: PreparationStages.PENDING,
+			estado_nuevo: PreparationStages.IN_PREPARATION,
+		};
+		it('should update succesfully the stage in the microservice Traceability', async () => {
+			(axios.put as any).mockResolvedValueOnce({ status: 200 });
+
+			await traceabilityMicroservice.updateStage(traceability, orderId, token);
+
+			expect(axios.put).toHaveBeenCalledWith(
+				`${expectedUrl}/empleado/actualizarEstadoPedido/${orderId}`,
+				traceability,
+				{
+					headers: expectedHeaders,
+				},
+			);
+		});
+		it('should throw an error when status is not 200', async () => {
+			(axios.put as any).mockResolvedValueOnce({ status: 500 });
+
+			await expect(
+				traceabilityMicroservice.updateStage(traceability, orderId, token),
+			).rejects.toThrow(boom.internal('Error al asignar el pedido'));
+		});
+	});
 });

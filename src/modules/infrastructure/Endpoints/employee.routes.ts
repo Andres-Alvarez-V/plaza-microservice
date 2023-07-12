@@ -27,4 +27,11 @@ router.put(
 	orderController.assingOrder.bind(orderController),
 );
 
+router.put(
+	'/asignarPedidoListo/:id_pedido',
+	passport.authenticate('jwt', { session: false }),
+	validatorCheckRole(RoleType.EMPLOYEE),
+	orderController.asingOrderReady.bind(orderController),
+);
+
 export default router;
