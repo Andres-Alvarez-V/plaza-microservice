@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { OrderUsecase } from '../../app/usecases/order.usecase';
-import { IOrderRequest } from '../../domain/entities/order';
+import { IOrderRequest, IUpdateOrder } from '../../domain/entities/order';
 import { IJWTPayload } from '../../domain/entities/JWTPayload';
 import { PreparationStages } from '../../domain/enums/preparationStages.enum';
 import boom from '@hapi/boom';
@@ -80,6 +80,33 @@ export class OrderController {
 			const userPayload = req.user as IJWTPayload;
 			const token = (req.headers.authorization as string).split(' ')[1];
 			const order = await this.orderUsecase.asingOrderReady(orderId, userPayload, token);
+
+			res.status(200).json({
+				message: 'Order assigned successfully',
+				data: order,
+			});
+		} catch (error) {
+			next(error);
+		}
+	}
+
+	async assignOrderDelivered(req: Request, res: Response, next: NextFunction) {
+		try {
+			const orderId = Number(req.params.id_pedido);
+			if (!orderId || isNaN(orderId)) {
+				throw boom.badRequest(
+					'El id del pedido debe ser un número y debe esta definido en el path',
+				);
+			}
+			const userPayload = req.user as IJWTPayload;
+			const token = (req.headers.authorization as string).split(' ')[1];
+			const requestBody: IUpdateOrder = req.body;
+			const order = await this.orderUsecase.assignOrderDelivered(
+				requestBody,
+				orderId,
+				userPayload,
+				token,
+			);
 
 			res.status(200).json({
 				message: 'Order assigned successfully',

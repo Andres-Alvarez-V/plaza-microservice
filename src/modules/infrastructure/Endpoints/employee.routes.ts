@@ -6,7 +6,10 @@ import {
 	validatorSchemaHandler,
 } from '../middlewares/validator.handler';
 import { RoleType } from '../../domain/enums/role-type.enum';
-import { preparationStagesFilterSchema } from '../../app/dtos/request/order.dto';
+import {
+	orderVerificationCodeSchema,
+	preparationStagesFilterSchema,
+} from '../../app/dtos/request/order.dto';
 import { orderController } from '../dependencies';
 
 const router = Router();
@@ -32,6 +35,14 @@ router.put(
 	passport.authenticate('jwt', { session: false }),
 	validatorCheckRole(RoleType.EMPLOYEE),
 	orderController.asingOrderReady.bind(orderController),
+);
+
+router.put(
+	'/asignarPedidoEntregado/:id_pedido',
+	passport.authenticate('jwt', { session: false }),
+	validatorCheckRole(RoleType.EMPLOYEE),
+	validatorSchemaHandler(orderVerificationCodeSchema, 'body'),
+	orderController.assignOrderDelivered.bind(orderController),
 );
 
 export default router;

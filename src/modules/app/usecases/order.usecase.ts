@@ -91,7 +91,7 @@ export class OrderUsecase {
 			throw boom.notFound('No se encontró el pedido');
 		}
 		if (orderToUpdate.estado !== PreparationStages.PENDING) {
-			throw boom.conflict('El pedido no está en estado pendiente');
+			throw boom.conflict('El pedido no está en estado "pendiente"');
 		}
 		const dataToUpdate: IUpdateOrder = {
 			estado: PreparationStages.IN_PREPARATION,
@@ -136,7 +136,7 @@ export class OrderUsecase {
 			throw boom.notFound('No se encontró el pedido');
 		}
 		if (orderToUpdate.estado !== PreparationStages.IN_PREPARATION) {
-			throw boom.conflict('El pedido no está en estado en preparación');
+			throw boom.conflict('El pedido no está en estado en "preparación"');
 		}
 		const employee = await this.employeeRepository.getEmployeeByEmployeeId(jwtPayload.id as number);
 		if (!employee) {
@@ -153,6 +153,47 @@ export class OrderUsecase {
 		const dataToUpdate: IUpdateOrder = {
 			estado: PreparationStages.READY,
 			codigo_verificacion: verificationCode,
+		};
+
+		const updatedOrder = await this.orderRepository.updateOrder(orderId, dataToUpdate);
+
+		const newTraceabilityData: IUpdateTraceability = {
+			estado_anterior: orderToUpdate.estado,
+			estado_nuevo: dataToUpdate.estado as PreparationStages,
+		};
+		await this.traceabilityMicroservice.updateStage(newTraceabilityData, orderId, token);
+
+		return updatedOrder;
+	}
+
+	async assignOrderDelivered(
+		requestBody: IUpdateOrder,
+		orderId: number,
+		jwtPayload: IJWTPayload,
+		token: string,
+	) {
+		const orderToUpdate = await this.orderRepository.getOrderById(orderId);
+		if (!orderToUpdate) {
+			throw boom.notFound('No se encontró el pedido');
+		}
+		if (orderToUpdate.estado !== PreparationStages.READY) {
+			throw boom.conflict('El pedido no está en estado "listo"');
+		}
+		if (orderToUpdate.codigo_verificacion !== String(requestBody.codigo_verificacion)) {
+			throw boom.forbidden(
+				'El codigo de verificación no es correcto, el pedido no puede ser entregado',
+			);
+		}
+
+		const employee = await this.employeeRepository.getEmployeeByEmployeeId(jwtPayload.id as number);
+		if (!employee) {
+			throw boom.notFound('No se encontró el empleado');
+		}
+		if (employee.id_restaurante !== orderToUpdate.id_restaurante) {
+			throw boom.conflict('El empleado no pertenece al restaurante del pedido');
+		}
+		const dataToUpdate: IUpdateOrder = {
+			estado: PreparationStages.DELIVERED,
 		};
 
 		const updatedOrder = await this.orderRepository.updateOrder(orderId, dataToUpdate);

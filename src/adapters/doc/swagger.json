@@ -723,6 +723,97 @@
 					}
 				}
 			}	
+		},
+		"/empleado/asignarPedidoEntregado/{id_pedido}":{
+			"put": {
+				"tags": ["Users"],
+				"summary": "Assign order to delivered state",
+				"description": "Assign an order to delivered state. Here you have to provided the verification code that the client received via SMS.",
+				"parameters": [
+					{
+						"name": "id_pedido",
+						"in": "path",
+						"description": "ID del pedido a actualizar como entregado",
+						"required": true,
+						"schema": {
+							"type": "number",
+							"example": "3"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/verificationOrderCodeSchema"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Successful Response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SuccessfulResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Missing data or with any wrong.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "The verification code is wrong.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "User/Order not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					},
+					"409": {
+						"description": "The order is not in PROGRESS state or you dont belong to the restaurant of the order.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					}
+				}
+			}	
 		}
 	},
 	"components": {
@@ -735,6 +826,14 @@
 			}
 		},
 		"schemas": {
+			"verificationOrderCodeSchema":{
+				"type": "object",
+				"properties": {
+					"codigo_verificacion": {
+						"type": "string"
+					}
+				}
+			},
 			"RestaurantCreate": {
 				"type": "object",
 				"properties": {

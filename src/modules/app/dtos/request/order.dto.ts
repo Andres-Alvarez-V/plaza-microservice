@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { IDishChosen, IOrderRequest } from '../../../domain/entities/order';
+import { IDishChosen, IOrderRequest, IUpdateOrder } from '../../../domain/entities/order';
 import { PreparationStages } from '../../../domain/enums/preparationStages.enum';
 
 const customMessages = {
@@ -19,6 +19,7 @@ const customMessages = {
 const dishId = Joi.number().integer().min(0);
 const quantity = Joi.number().integer().min(1);
 const restaurantId = Joi.number().integer().min(0);
+const verificationCode = Joi.number().integer().min(100000).max(999999);
 const dishChosenSchema = Joi.object<IDishChosen>({
 	id_plato: dishId.required(),
 	cantidad: quantity.required(),
@@ -45,4 +46,10 @@ export const preparationStagesFilterSchema = Joi.object({
 }).options({
 	messages: customMessages,
 	allowUnknown: true,
+});
+
+export const orderVerificationCodeSchema = Joi.object<IUpdateOrder>({
+	codigo_verificacion: verificationCode.required(),
+}).options({
+	messages: customMessages,
 });

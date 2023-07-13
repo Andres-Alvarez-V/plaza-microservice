@@ -364,4 +364,85 @@ describe('OrderUsecase', () => {
 			);
 		});
 	});
+
+	describe('assignOrderDelivered', () => {
+		const orderId = 1;
+		const requestBody = {
+			codigo_verificacion: '123456',
+		};
+
+		const mockGetEmployeeResolved = {
+			id_empleado: 123,
+			id_restaurante: 1,
+		};
+		const mockGetOrderResolved = {
+			id: 1,
+			id_cliente: 1,
+			fecha: new Date(),
+			estado: PreparationStages.READY,
+			id_chef: 2,
+			id_restaurante: 1,
+			codigo_verificacion: '123456',
+		};
+		const dataToUpdate = {
+			estado: PreparationStages.DELIVERED,
+		};
+		const newTraceabilityData: IUpdateTraceability = {
+			estado_anterior: mockGetOrderResolved.estado,
+			estado_nuevo: dataToUpdate.estado,
+		};
+
+		it('should update order successfully', async () => {
+			const getOrderByIdSpy = jest
+				.spyOn(mockOrderRepository, 'getOrderById')
+				.mockResolvedValue(mockGetOrderResolved);
+			const getEmployeeByEmployeeIdSpy = jest
+				.spyOn(mockEmployeeRepository, 'getEmployeeByEmployeeId')
+				.mockResolvedValue(mockGetEmployeeResolved);
+			const updateStageSpy = jest
+				.spyOn(mockTraceabilityMicroservice, 'updateStage')
+				.mockResolvedValue();
+
+			await orderUsecase.assignOrderDelivered(requestBody, orderId, jwtPayload, token);
+
+			expect(getOrderByIdSpy).toHaveBeenCalledWith(orderId);
+			expect(getEmployeeByEmployeeIdSpy).toHaveBeenCalledWith(jwtPayload.id as number);
+			expect(mockOrderRepository.updateOrder).toHaveBeenCalledWith(orderId, dataToUpdate);
+			expect(updateStageSpy).toHaveBeenCalledWith(newTraceabilityData, orderId, token);
+		});
+
+		it('should throw error when order not found', async () => {
+			jest.spyOn(mockOrderRepository, 'getOrderById').mockResolvedValue(null);
+
+			await expect(
+				orderUsecase.assignOrderDelivered(requestBody, orderId, jwtPayload, token),
+			).rejects.toThrow(boom.notFound('No se encontró el pedido'));
+		});
+
+		it('should throw error when order is not in ready stage', async () => {
+			jest.spyOn(mockOrderRepository, 'getOrderById').mockResolvedValue({
+				...mockGetOrderResolved,
+				estado: PreparationStages.PENDING,
+			});
+
+			await expect(
+				orderUsecase.assignOrderDelivered(requestBody, orderId, jwtPayload, token),
+			).rejects.toThrow(boom.conflict('El pedido no está en estado "listo"'));
+		});
+
+		it('should throw error when the verification code dont match', async () => {
+			jest.spyOn(mockOrderRepository, 'getOrderById').mockResolvedValue({
+				...mockGetOrderResolved,
+				codigo_verificacion: '654321',
+			});
+
+			await expect(
+				orderUsecase.assignOrderDelivered(requestBody, orderId, jwtPayload, token),
+			).rejects.toThrow(
+				boom.forbidden(
+					'El codigo de verificación no es correcto, el pedido no puede ser entregado',
+				),
+			);
+		});
+	});
 });

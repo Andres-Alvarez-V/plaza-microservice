@@ -1,5 +1,6 @@
 import {
 	orderRequestSchema,
+	orderVerificationCodeSchema,
 	preparationStagesFilterSchema,
 } from '../../../../src/modules/app/dtos/request/order.dto';
 import { IOrderRequest } from '../../../../src/modules/domain/entities/order';
@@ -104,6 +105,43 @@ describe('orderDTO', () => {
 			expect(error).toBeDefined();
 			const errorMessages = error?.details.map((detail) => detail.message);
 			expect(errorMessages).toContain('El campo "estados" contiene un valor inválido');
+		});
+	});
+
+	describe('orderVerificationCodeSchema', () => {
+		const validOrderCode = {
+			codigo_verificacion: 123456,
+		};
+
+		it('should validate a valid order code object', () => {
+			const { error } = orderVerificationCodeSchema.validate(validOrderCode, {
+				abortEarly: false,
+			});
+			expect(error).toBeUndefined();
+		});
+
+		it('should return an error for invalid order code object. "codigo_verificacion" should be a number', () => {
+			const invalidOrderCode = {
+				codigo_verificacion: 'INVALID_CODE',
+			};
+			const { error } = orderVerificationCodeSchema.validate(invalidOrderCode, {
+				abortEarly: false,
+			});
+			expect(error).toBeDefined();
+			const errorMessages = error?.details.map((detail) => detail.message);
+			expect(errorMessages).toContain('El campo "codigo_verificacion" debe ser un número');
+		});
+
+		it('should return an error for invalid order code object. "codigo_verificacion" should be greater equal than 100000', () => {
+			const invalidOrderCode = {
+				codigo_verificacion: 99999,
+			};
+			const { error } = orderVerificationCodeSchema.validate(invalidOrderCode, {
+				abortEarly: false,
+			});
+			expect(error).toBeDefined();
+			const errorMessages = error?.details.map((detail) => detail.message);
+			expect(errorMessages).toContain('El campo "codigo_verificacion" debe ser mayor a 100000');
 		});
 	});
 });
