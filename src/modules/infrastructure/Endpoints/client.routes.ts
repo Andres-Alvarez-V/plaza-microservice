@@ -34,4 +34,12 @@ router.post(
 	validatorSchemaHandler(orderRequestSchema, 'body'),
 	orderController.create.bind(orderController),
 );
+
+router.put(
+	'/cancelarPedido/:id_pedido',
+	passport.authenticate('jwt', { session: false }),
+	validatorCheckRole(RoleType.CLIENT),
+	orderController.cancelOrder.bind(orderController),
+);
+
 export default router;

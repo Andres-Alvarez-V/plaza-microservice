@@ -498,6 +498,67 @@
 				}
 			}
 		},
+		"/cliente/cancelarPedido/{id_pedido}":{
+			"put": {
+				"tags": ["Users"],
+				"summary": "Assign order",
+				"description": "Cancel order ",
+				"parameters": [
+					{
+						"name": "id_pedido",
+						"in": "path",
+						"description": "ID del pedido a asignar",
+						"required": true,
+						"schema": {
+							"type": "number",
+							"example": "3"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful Response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SuccessfulResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Missing data or with any wrong.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					},
+					"409": {
+						"description": "The order is not in PENDING state or you dont belong to the restaurant of the order.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
 		"/empleado/pedidos": {
 			"get": {
 				"tags": ["Users"],

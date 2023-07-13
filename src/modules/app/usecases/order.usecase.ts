@@ -206,4 +206,26 @@ export class OrderUsecase {
 
 		return updatedOrder;
 	}
+
+	async cancelOrder(orderId: number, token: string) {
+		const orderToUpdate = await this.orderRepository.getOrderById(orderId);
+		if (!orderToUpdate) {
+			throw boom.notFound('No se encontró el pedido');
+		}
+		if (orderToUpdate.estado !== PreparationStages.PENDING) {
+			throw boom.conflict('Lo sentimos, tu pedido ya está en preparación y no puede cancelarse');
+		}
+		const dataToUpdate: IUpdateOrder = {
+			estado: PreparationStages.CANCELED,
+		};
+
+		const updatedOrder = await this.orderRepository.updateOrder(orderId, dataToUpdate);
+		const newTraceabilityData: IUpdateTraceability = {
+			estado_anterior: orderToUpdate.estado,
+			estado_nuevo: dataToUpdate.estado as PreparationStages,
+		};
+		await this.traceabilityMicroservice.updateStageClient(newTraceabilityData, orderId, token);
+
+		return updatedOrder;
+	}
 }

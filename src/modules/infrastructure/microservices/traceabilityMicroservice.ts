@@ -62,4 +62,20 @@ export class TraceabilityMicroservice implements ITraceabilityMicroservice {
 			throw boom.internal('Error al asignar el pedido');
 		}
 	}
+
+	async updateStageClient(traceability: IUpdateTraceability, orderId: number, token: string) {
+		const response = await axios.put(
+			`${this.traceabilityUrl}/cliente/cancelarPedido/${orderId}`,
+			traceability,
+			{
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${token}`,
+				},
+			},
+		);
+		if (response.status !== 200) {
+			throw boom.internal('Error al asignar el pedido');
+		}
+	}
 }

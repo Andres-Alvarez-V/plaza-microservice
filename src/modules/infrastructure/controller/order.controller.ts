@@ -116,4 +116,24 @@ export class OrderController {
 			next(error);
 		}
 	}
+
+	async cancelOrder(req: Request, res: Response, next: NextFunction) {
+		try {
+			const orderId = Number(req.params.id_pedido);
+			if (!orderId || isNaN(orderId)) {
+				throw boom.badRequest(
+					'El id del pedido debe ser un número y debe esta definido en el path',
+				);
+			}
+			const token = (req.headers.authorization as string).split(' ')[1];
+			const order = await this.orderUsecase.cancelOrder(orderId, token);
+
+			res.status(200).json({
+				message: 'Order cancelled successfully',
+				data: order,
+			});
+		} catch (error) {
+			next(error);
+		}
+	}
 }

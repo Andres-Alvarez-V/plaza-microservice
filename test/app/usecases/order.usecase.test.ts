@@ -445,4 +445,58 @@ describe('OrderUsecase', () => {
 			);
 		});
 	});
+	describe('cancelOrder', () => {
+		const orderId = 1;
+
+		const mockGetOrderResolved = {
+			id: 1,
+			id_cliente: 1,
+			fecha: new Date(),
+			estado: PreparationStages.PENDING,
+			id_chef: 2,
+			id_restaurante: 1,
+			codigo_verificacion: '123456',
+		};
+		const dataToUpdate = {
+			estado: PreparationStages.CANCELED,
+		};
+		const newTraceabilityData: IUpdateTraceability = {
+			estado_anterior: mockGetOrderResolved.estado,
+			estado_nuevo: dataToUpdate.estado,
+		};
+
+		it('should update order successfully', async () => {
+			const getOrderByIdSpy = jest
+				.spyOn(mockOrderRepository, 'getOrderById')
+				.mockResolvedValue(mockGetOrderResolved);
+			const updateStageSpy = jest
+				.spyOn(mockTraceabilityMicroservice, 'updateStage')
+				.mockResolvedValue();
+
+			await orderUsecase.cancelOrder(orderId, token);
+
+			expect(getOrderByIdSpy).toHaveBeenCalledWith(orderId);
+			expect(mockOrderRepository.updateOrder).toHaveBeenCalledWith(orderId, dataToUpdate);
+			expect(updateStageSpy).toHaveBeenCalledWith(newTraceabilityData, orderId, token);
+		});
+
+		it('should throw error when order not found', async () => {
+			jest.spyOn(mockOrderRepository, 'getOrderById').mockResolvedValue(null);
+
+			await expect(orderUsecase.cancelOrder(orderId, token)).rejects.toThrow(
+				boom.notFound('No se encontró el pedido'),
+			);
+		});
+
+		it('should throw error when order is not in pending stage', async () => {
+			jest.spyOn(mockOrderRepository, 'getOrderById').mockResolvedValue({
+				...mockGetOrderResolved,
+				estado: PreparationStages.READY,
+			});
+
+			await expect(orderUsecase.cancelOrder(orderId, token)).rejects.toThrow(
+				boom.conflict('El pedido no está en estado "pendiente"'),
+			);
+		});
+	});
 });
