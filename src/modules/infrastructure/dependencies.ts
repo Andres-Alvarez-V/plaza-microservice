@@ -40,6 +40,7 @@ const orderUseCase = new OrderUsecase(
 	userMicroservice,
 	employeeRepository,
 	twilioMicroservice,
+	restaurantRepository,
 );
 
 // Controllers

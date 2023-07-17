@@ -25,4 +25,14 @@ export class EmployeePostgresqlRepository implements IEmployeeRepository {
 
 		return employee ? (employee.toJSON() as IEmployee) : null;
 	}
+
+	async getEmployeesByRestaurantId(restaurantId: number): Promise<IEmployee[]> {
+		const employees = await this.sequelize.models[EMPLOYEE_POSTGRESQL_TABLE].findAll({
+			where: {
+				id_restaurante: restaurantId,
+			},
+		});
+
+		return employees.map((employee) => employee.toJSON() as IEmployee);
+	}
 }

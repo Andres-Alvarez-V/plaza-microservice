@@ -25,6 +25,7 @@ describe('EmployeePostgresqlRepository', () => {
 							...employeeDataMock,
 						}),
 					}),
+					findAll: jest.fn().mockResolvedValue([]),
 				},
 			},
 		};
@@ -46,6 +47,40 @@ describe('EmployeePostgresqlRepository', () => {
 			const employee = await repository.getEmployeeByEmployeeId(employeeId);
 			expect(employee).toMatchObject({
 				...employeeDataMock,
+			});
+		});
+	});
+
+	describe('getEmployeesByRestaurantId', () => {
+		it('should get employees by restaurant ID', async () => {
+			const mockResolved = [
+				{
+					id_empleado: 1,
+					id_restaurante: 1,
+				},
+				{
+					id_empleado: 2,
+					id_restaurante: 1,
+				},
+			];
+			const findAllMockResolved = [
+				{
+					toJSON: jest.fn().mockReturnValue(mockResolved[0]),
+				},
+				{
+					toJSON: jest.fn().mockReturnValue(mockResolved[1]),
+				},
+			];
+
+			const findAllMock = sequelizeMock.models[EMPLOYEE_POSTGRESQL_TABLE].findAll;
+			findAllMock.mockResolvedValue(findAllMockResolved);
+			const restaurantId = 1;
+			const employees = await repository.getEmployeesByRestaurantId(restaurantId);
+			expect(employees).toMatchObject(mockResolved);
+			expect(findAllMock).toHaveBeenCalledWith({
+				where: {
+					id_restaurante: restaurantId,
+				},
 			});
 		});
 	});

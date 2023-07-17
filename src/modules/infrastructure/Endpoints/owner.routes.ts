@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { dishController, employeeController } from '../dependencies';
+import { dishController, employeeController, orderController } from '../dependencies';
 import { validatorCheckRole, validatorSchemaHandler } from '../middlewares/validator.handler';
 import {
 	changeDishStateSchema,
@@ -42,6 +42,13 @@ router.put(
 	validatorCheckRole(RoleType.OWNER),
 	validatorSchemaHandler(changeDishStateSchema, 'body'),
 	dishController.changeState.bind(dishController),
+);
+
+router.get(
+	'/reporteEficiencia/:id_restaurante',
+	passport.authenticate('jwt', { session: false }),
+	validatorCheckRole(RoleType.OWNER),
+	orderController.getEfficiencyReport.bind(orderController),
 );
 
 export default router;

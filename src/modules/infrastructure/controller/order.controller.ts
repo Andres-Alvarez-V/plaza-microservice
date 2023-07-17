@@ -136,4 +136,25 @@ export class OrderController {
 			next(error);
 		}
 	}
+
+	async getEfficiencyReport(req: Request, res: Response, next: NextFunction) {
+		try {
+			const restaurantId = Number(req.params.id_restaurante);
+			if (!restaurantId || isNaN(restaurantId)) {
+				throw boom.badRequest(
+					'El id del restaurante debe ser un número y debe esta definido en el path',
+				);
+			}
+			const userPayload = req.user as IJWTPayload;
+
+			const report = await this.orderUsecase.getEficiencyReport(restaurantId, userPayload);
+
+			res.status(200).json({
+				message: 'Report fetched successfully',
+				data: report,
+			});
+		} catch (error) {
+			next(error);
+		}
+	}
 }

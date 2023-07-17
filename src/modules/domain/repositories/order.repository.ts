@@ -1,4 +1,10 @@
-import { IOrder, IOrderCreate, IUpdateOrder } from '../entities/order';
+import {
+	IOrder,
+	IOrderCreate,
+	ITimeTakenPerOrder,
+	ITotalTimePerEmployee,
+	IUpdateOrder,
+} from '../entities/order';
 import { PreparationStages } from '../enums/preparationStages.enum';
 
 export interface IOrderRepository {
@@ -15,4 +21,9 @@ export interface IOrderRepository {
 		limit: number,
 	): Promise<IOrder[]>;
 	updateOrder(orderId: number, order: IUpdateOrder): Promise<IOrder>;
+	getTimeTakenPerOrder(restaurantId: number): Promise<ITimeTakenPerOrder[]>;
+	getTotalTimePerEmployee(
+		restaurantId: number,
+		employeeIds: number[],
+	): Promise<ITotalTimePerEmployee[]>;
 }

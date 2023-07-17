@@ -11,8 +11,10 @@ import { EmployeePostgresqlRepository } from '../../../src/modules/infrastructur
 import { OrderPostgresqlRepository } from '../../../src/modules/infrastructure/orm/repository/orderPostgresql.repository';
 import { OrderDishPostgresqlRepository } from '../../../src/modules/infrastructure/orm/repository/order_dishPostgresql.repository';
 import boom from '@hapi/boom';
+import { RestaurantPostgresqlRepository } from '../../../src/modules/infrastructure/orm/repository/restaurantPostgresql.repository';
 
 describe('OrderUsecase', () => {
+	const failMessage = 'Se esperaba que se lanzara una excepción';
 	let orderUsecase: OrderUsecase;
 	let mockOrderRepository: OrderPostgresqlRepository;
 	let mockTraceabilityMicroservice: TraceabilityMicroservice;
@@ -20,6 +22,7 @@ describe('OrderUsecase', () => {
 	let mockUserMicroservice: UserMicroservice;
 	let mockEmployeeRepository: EmployeePostgresqlRepository;
 	let mockTwilioMicroservice: TwilioMicroservice;
+	let mockRestaurantRepository: RestaurantPostgresqlRepository;
 	// Arrange
 	const order: IOrderRequest = {
 		id_restaurante: 123,
@@ -53,6 +56,7 @@ describe('OrderUsecase', () => {
 		mockTraceabilityMicroservice.createTraceability = jest.fn();
 		mockTraceabilityMicroservice.assingOrder = jest.fn();
 		mockTraceabilityMicroservice.updateStage = jest.fn();
+		mockTraceabilityMicroservice.updateStageClient = jest.fn();
 
 		mockOrderDishRepository = new OrderDishPostgresqlRepository();
 		mockOrderDishRepository.createOrderedDishes = jest.fn();
@@ -66,6 +70,9 @@ describe('OrderUsecase', () => {
 		mockTwilioMicroservice = new TwilioMicroservice();
 		mockTwilioMicroservice.sendSms = jest.fn();
 
+		mockRestaurantRepository = new RestaurantPostgresqlRepository();
+		mockRestaurantRepository.findById = jest.fn();
+
 		orderUsecase = new OrderUsecase(
 			mockOrderRepository,
 			mockTraceabilityMicroservice,
@@ -73,6 +80,7 @@ describe('OrderUsecase', () => {
 			mockUserMicroservice,
 			mockEmployeeRepository,
 			mockTwilioMicroservice,
+			mockRestaurantRepository,
 		);
 	});
 
@@ -121,8 +129,10 @@ describe('OrderUsecase', () => {
 					id_restaurante: 123,
 				},
 			]);
-			const result = orderUsecase.create(order, jwtPayload, token);
-			await expect(result).rejects.toThrow('Ya tienes un pedido activo');
+
+			await expect(orderUsecase.create(order, jwtPayload, token)).rejects.toThrow(
+				boom.conflict('Ya tienes un pedido activo'),
+			);
 		});
 	});
 
@@ -137,6 +147,7 @@ describe('OrderUsecase', () => {
 					id_chef: null,
 					id_restaurante: 1,
 					codigo_verificacion: null,
+					tiempo_pedido: null,
 				},
 				{
 					id: 13,
@@ -146,6 +157,7 @@ describe('OrderUsecase', () => {
 					id_chef: null,
 					id_restaurante: 1,
 					codigo_verificacion: null,
+					tiempo_pedido: null,
 				},
 			];
 
@@ -173,13 +185,9 @@ describe('OrderUsecase', () => {
 
 		it('should return an error if the user is not an employee', async () => {
 			(mockEmployeeRepository.getEmployeeByEmployeeId as any).mockResolvedValue(null);
-			const result = orderUsecase.getOrdersFilteredByStages(
-				jwtPayload,
-				[PreparationStages.PENDING],
-				1,
-				10,
-			);
-			await expect(result).rejects.toThrow('No se encontró el empleado');
+			await expect(
+				orderUsecase.getOrdersFilteredByStages(jwtPayload, [PreparationStages.PENDING], 1, 10),
+			).rejects.toThrow(boom.notFound('No se encontró el empleado'));
 		});
 	});
 
@@ -234,8 +242,9 @@ describe('OrderUsecase', () => {
 
 		it('should throw an error 404 if the order does not exist', async () => {
 			(mockOrderRepository.getOrderById as any).mockResolvedValue(null);
-			const result = orderUsecase.assingOrder(orderId, jwtPayload, token);
-			await expect(result).rejects.toThrow(boom.notFound('No se encontró el pedido'));
+			await expect(orderUsecase.assingOrder(orderId, jwtPayload, token)).rejects.toThrow(
+				boom.notFound('No se encontró el pedido'),
+			);
 		});
 
 		it('should throw an error of type conflict 409 if the order is not in a PENDING State ', async () => {
@@ -247,15 +256,17 @@ describe('OrderUsecase', () => {
 				id_chef: null,
 				id_restaurante: 1,
 			});
-			const result = orderUsecase.assingOrder(orderId, jwtPayload, token);
-			await expect(result).rejects.toThrow(boom.conflict('El pedido no está en estado pendiente'));
+			await expect(orderUsecase.assingOrder(orderId, jwtPayload, token)).rejects.toThrow(
+				boom.conflict('El pedido no está en estado "pendiente"'),
+			);
 		});
 
 		it('should throw an error 404 if the employee does not exist', async () => {
 			(mockOrderRepository.getOrderById as any).mockResolvedValue(mockGetOrderResolved);
 			(mockEmployeeRepository.getEmployeeByEmployeeId as any).mockResolvedValue(null);
-			const result = orderUsecase.assingOrder(orderId, jwtPayload, token);
-			await expect(result).rejects.toThrow(boom.notFound('No se encontró el chef'));
+			await expect(orderUsecase.assingOrder(orderId, jwtPayload, token)).rejects.toThrow(
+				boom.notFound('No se encontró el chef'),
+			);
 		});
 
 		it('should throw an error if the employee is not from the same restaurant as the order', async () => {
@@ -264,8 +275,7 @@ describe('OrderUsecase', () => {
 				id_empleado: 1,
 				id_restaurante: 2,
 			});
-			const result = orderUsecase.assingOrder(orderId, jwtPayload, token);
-			await expect(result).rejects.toThrow(
+			await expect(orderUsecase.assingOrder(orderId, jwtPayload, token)).rejects.toThrow(
 				boom.conflict('El chef no pertenece al restaurante del pedido'),
 			);
 		});
@@ -287,6 +297,7 @@ describe('OrderUsecase', () => {
 			id_chef: 2,
 			id_restaurante: 1,
 			codigo_verificacion: null,
+			tiempo_pedido: null,
 		};
 		const dataToUpdate = {
 			estado: PreparationStages.READY,
@@ -326,7 +337,6 @@ describe('OrderUsecase', () => {
 
 		it('should throw error when order not found', async () => {
 			jest.spyOn(mockOrderRepository, 'getOrderById').mockResolvedValue(null);
-
 			await expect(orderUsecase.asingOrderReady(orderId, jwtPayload, token)).rejects.toThrow(
 				boom.notFound('No se encontró el pedido'),
 			);
@@ -339,14 +349,13 @@ describe('OrderUsecase', () => {
 			});
 
 			await expect(orderUsecase.asingOrderReady(orderId, jwtPayload, token)).rejects.toThrow(
-				boom.conflict('El pedido no está en estado en preparación'),
+				boom.conflict('El pedido no está en estado en "preparación"'),
 			);
 		});
 
 		it('should throw error when employee not found', async () => {
 			jest.spyOn(mockOrderRepository, 'getOrderById').mockResolvedValue(mockGetOrderResolved);
 			jest.spyOn(mockEmployeeRepository, 'getEmployeeByEmployeeId').mockResolvedValue(null);
-
 			await expect(orderUsecase.asingOrderReady(orderId, jwtPayload, token)).rejects.toThrow(
 				boom.notFound('No se encontró el empleado'),
 			);
@@ -383,9 +392,11 @@ describe('OrderUsecase', () => {
 			id_chef: 2,
 			id_restaurante: 1,
 			codigo_verificacion: '123456',
+			tiempo_pedido: null,
 		};
 		const dataToUpdate = {
 			estado: PreparationStages.DELIVERED,
+			tiempo_pedido: expect.any(Number),
 		};
 		const newTraceabilityData: IUpdateTraceability = {
 			estado_anterior: mockGetOrderResolved.estado,
@@ -456,6 +467,17 @@ describe('OrderUsecase', () => {
 			id_chef: 2,
 			id_restaurante: 1,
 			codigo_verificacion: '123456',
+			tiempo_pedido: null,
+		};
+		const updateOrderResolved = {
+			id: 11,
+			id_cliente: 33,
+			fecha: new Date('2023-07-10T04:01:32.465Z'),
+			estado: PreparationStages.DELIVERED,
+			id_chef: null,
+			id_restaurante: 1,
+			codigo_verificacion: null,
+			tiempo_pedido: null,
 		};
 		const dataToUpdate = {
 			estado: PreparationStages.CANCELED,
@@ -469,14 +491,17 @@ describe('OrderUsecase', () => {
 			const getOrderByIdSpy = jest
 				.spyOn(mockOrderRepository, 'getOrderById')
 				.mockResolvedValue(mockGetOrderResolved);
+			const updateOrderSpy = jest
+				.spyOn(mockOrderRepository, 'updateOrder')
+				.mockResolvedValue(updateOrderResolved);
 			const updateStageSpy = jest
-				.spyOn(mockTraceabilityMicroservice, 'updateStage')
+				.spyOn(mockTraceabilityMicroservice, 'updateStageClient')
 				.mockResolvedValue();
 
 			await orderUsecase.cancelOrder(orderId, token);
 
 			expect(getOrderByIdSpy).toHaveBeenCalledWith(orderId);
-			expect(mockOrderRepository.updateOrder).toHaveBeenCalledWith(orderId, dataToUpdate);
+			expect(updateOrderSpy).toHaveBeenCalledWith(orderId, dataToUpdate);
 			expect(updateStageSpy).toHaveBeenCalledWith(newTraceabilityData, orderId, token);
 		});
 
@@ -495,7 +520,117 @@ describe('OrderUsecase', () => {
 			});
 
 			await expect(orderUsecase.cancelOrder(orderId, token)).rejects.toThrow(
-				boom.conflict('El pedido no está en estado "pendiente"'),
+				boom.conflict('Lo sentimos, tu pedido ya está en preparación y no puede cancelarse'),
+			);
+		});
+	});
+
+	describe('getEficiencyReport', () => {
+		jwtPayload.role = RoleType.OWNER;
+		const restaurantId = 1;
+		const mockGetRestaurantByIdResolved = {
+			id: 1,
+			nombre: 'test',
+			direccion: 'test',
+			id_propietario: jwtPayload.id,
+			telefono: '123456789',
+			urlLogo: 'test',
+			nit: '12345678910',
+		};
+
+		const mockGetTimeTakenPerOrderResolved = [
+			{
+				id_pedido: 1,
+				tiempo_pedido_segundos: 100,
+			},
+			{
+				id_pedido: 2,
+				tiempo_pedido_segundos: 200,
+			},
+			{
+				id_pedido: 3,
+				tiempo_pedido_segundos: 300,
+			},
+		];
+		const mockGetEmployeesByRestaurantIdResolved = [
+			{
+				id_empleado: 1,
+				id_restaurante: 1,
+			},
+			{
+				id_empleado: 2,
+				id_restaurante: 1,
+			},
+		];
+
+		const mockGetTotalTimePerEmployeeResolved = [
+			{
+				id_chef: 1,
+				total_time: 100,
+				total_orders: 2,
+			},
+			{
+				id_chef: 2,
+				total_time: 200,
+				total_orders: 4,
+			},
+		];
+
+		const mockResolved = {
+			tiempo_por_pedido: mockGetTimeTakenPerOrderResolved,
+			tiempo_promedio_por_empleado: mockGetTotalTimePerEmployeeResolved.map((employee) => {
+				return {
+					id_chef: employee.id_chef,
+					tiempo_promedio_segundos: employee.total_time / employee.total_orders,
+				};
+			}),
+		};
+
+		it('should return an object of type IEFFiciencyReport', async () => {
+			const getRestaurantByIdSpy = jest
+				.spyOn(mockRestaurantRepository, 'findById')
+				.mockResolvedValue(mockGetRestaurantByIdResolved);
+
+			const getTimeTakenPerOrderSpy = jest
+				.spyOn(mockOrderRepository, 'getTimeTakenPerOrder')
+				.mockResolvedValue(mockGetTimeTakenPerOrderResolved);
+			const getEmployeesByRestaurantIdSpy = jest
+				.spyOn(mockEmployeeRepository, 'getEmployeesByRestaurantId')
+				.mockResolvedValue(mockGetEmployeesByRestaurantIdResolved);
+			const getTotalTimePerEmployeeSpy = jest
+				.spyOn(mockOrderRepository, 'getTotalTimePerEmployee')
+				.mockResolvedValue(mockGetTotalTimePerEmployeeResolved);
+
+			const efficiencyReport = await orderUsecase.getEficiencyReport(restaurantId, jwtPayload);
+
+			expect(getRestaurantByIdSpy).toHaveBeenCalledWith(restaurantId);
+			expect(getTimeTakenPerOrderSpy).toHaveBeenCalledWith(restaurantId);
+			expect(getEmployeesByRestaurantIdSpy).toHaveBeenCalledWith(restaurantId);
+			expect(getTotalTimePerEmployeeSpy).toHaveBeenCalledWith(
+				restaurantId,
+				mockGetEmployeesByRestaurantIdResolved.map((employee) => employee.id_empleado),
+			);
+
+			expect(efficiencyReport).toEqual(mockResolved);
+		});
+
+		it('should throw an error if the user is not the owner of the restaurant', async () => {
+			const jwtPayloadTemp = {
+				...jwtPayload,
+				id: 321,
+			};
+			jest
+				.spyOn(mockRestaurantRepository, 'findById')
+				.mockResolvedValue(mockGetRestaurantByIdResolved);
+			await expect(orderUsecase.getEficiencyReport(restaurantId, jwtPayloadTemp)).rejects.toThrow(
+				boom.forbidden('No tienes permisos para ver este reporte'),
+			);
+		});
+
+		it('should throw an error if the restaurant does not exist', async () => {
+			jest.spyOn(mockRestaurantRepository, 'findById').mockResolvedValue(null);
+			await expect(orderUsecase.getEficiencyReport(restaurantId, jwtPayload)).rejects.toThrow(
+				boom.notFound('No se encontró el restaurante'),
 			);
 		});
 	});

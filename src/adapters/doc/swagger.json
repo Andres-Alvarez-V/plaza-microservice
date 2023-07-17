@@ -13,7 +13,9 @@
 	"paths": {
 		"/admin/crearRestaurante": {
 			"post": {
-				"tags": ["Users"],
+				"tags": [
+					"Admin"
+				],
 				"summary": "Create restaurant",
 				"description": "Create a new restaurant",
 				"requestBody": {
@@ -70,9 +72,84 @@
 				}
 			}
 		},
+		"/propietario/reporteEficiencia/{id_restaurante}": {
+			"get": {
+				"tags": [
+					"Propietario"
+				],
+				"summary": "Get efficiency report",
+				"description": "Get efficiency report from your restaurant",
+				"parameters": [
+					{
+						"name": "id_restaurante",
+						"in": "path",
+						"description": "ID del restaurante",
+						"required": true,
+						"schema": {
+							"type": "number",
+							"example": "3"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful Response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref":"#/components/schemas/IEfficiencyReport"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Missing data or with any wrong",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "You dont belong to the restaurant of the report.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Restaurant not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FailResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
 		"/propietario/crearPlato": {
 			"post": {
-				"tags": ["Users"],
+				"tags": [
+					"Propietario"
+				],
 				"summary": "Create dish",
 				"description": "Create a new dish",
 				"requestBody": {
@@ -131,7 +208,9 @@
 		},
 		"/propietario/actualizarPlato/{id}": {
 			"put": {
-				"tags": ["Users"],
+				"tags": [
+					"Propietario"
+				],
 				"summary": "Update dish",
 				"description": "Update a dish",
 				"parameters": [
@@ -202,7 +281,9 @@
 		},
 		"/propietario/cambiarEstadoPlato/{id}": {
 			"put": {
-				"tags": ["Users"],
+				"tags": [
+					"Propietario"
+				],
 				"summary": "Change dish status",
 				"description": "Change dish status",
 				"parameters": [
@@ -279,7 +360,9 @@
 		},
 		"/cliente/platos/{id_restaurante}": {
 			"get": {
-				"tags": ["Users"],
+				"tags": [
+					"Cliente"
+				],
 				"summary": "Get dishes",
 				"description": "Get dishes by page, limit and categoriesId parameters to get a clean response. \nYou can provided the category array id if you want to filter by categroy. Otherwise dont provide it .\n\n Example with category: `/api/v1/cliente/platos/1?page=1&limit=10&categoriesId=1,3,5` \n\n Example without category: `/api/v1/cliente/platos/1?page=1&limit=10`",
 				"parameters": [
@@ -370,7 +453,9 @@
 		},
 		"/cliente/restaurantes": {
 			"get": {
-				"tags": ["Users"],
+				"tags": [
+					"Cliente"
+				],
 				"summary": "Get restaurants",
 				"description": "Get restaurants by page and limit parameters to get a clean response. \n\n**Example:**`/api/v1/cliente/restaurantes?page=1&limit=10`",
 				"parameters": [
@@ -431,7 +516,9 @@
 		},
 		"/cliente/crearPedido": {
 			"post": {
-				"tags": ["Users"],
+				"tags": [
+					"Cliente"
+				],
 				"summary": "Create order",
 				"description": "Create a new order",
 				"requestBody": {
@@ -498,9 +585,11 @@
 				}
 			}
 		},
-		"/cliente/cancelarPedido/{id_pedido}":{
+		"/cliente/cancelarPedido/{id_pedido}": {
 			"put": {
-				"tags": ["Users"],
+				"tags": [
+					"Cliente"
+				],
 				"summary": "Assign order",
 				"description": "Cancel order ",
 				"parameters": [
@@ -561,7 +650,9 @@
 		},
 		"/empleado/pedidos": {
 			"get": {
-				"tags": ["Users"],
+				"tags": [
+					"Empleado"
+				],
 				"summary": "Get orders",
 				"description": "Get orders from your restaurant paginated by page and limit parameters to get a clean response, filtering by preparation stages. The params are not required, by default it filter by all stages and page=1 and limit=10. \n\n**Example:**`/api/v1/empleado/pedidos?page=1&limit=10&estados=LISTO,PENDIENTE,EN_PREPARACION` \n\n\n**Estados:**\n\n* PENDIENTE\n* CANCELADO\n* EN_PREPARACION\n* LISTO\n* ENTREGADO",
 				"parameters": [
@@ -645,7 +736,9 @@
 		},
 		"/empleado/asignarPedido/{id_pedido}": {
 			"put": {
-				"tags": ["Users"],
+				"tags": [
+					"Empleado"
+				],
 				"summary": "Assign order",
 				"description": "Assign an order to you",
 				"parameters": [
@@ -714,9 +807,11 @@
 				}
 			}
 		},
-		"/empleado/asignarPedidoListo/{id_pedido}":{
+		"/empleado/asignarPedidoListo/{id_pedido}": {
 			"put": {
-				"tags": ["Users"],
+				"tags": [
+					"Empleado"
+				],
 				"summary": "Assign order to ready state",
 				"description": "Assign an order to ready state and notify the client via SMS",
 				"parameters": [
@@ -783,11 +878,13 @@
 						}
 					}
 				}
-			}	
+			}
 		},
-		"/empleado/asignarPedidoEntregado/{id_pedido}":{
+		"/empleado/asignarPedidoEntregado/{id_pedido}": {
 			"put": {
-				"tags": ["Users"],
+				"tags": [
+					"Empleado"
+				],
 				"summary": "Assign order to delivered state",
 				"description": "Assign an order to delivered state. Here you have to provided the verification code that the client received via SMS.",
 				"parameters": [
@@ -874,7 +971,7 @@
 						}
 					}
 				}
-			}	
+			}
 		}
 	},
 	"components": {
@@ -887,7 +984,46 @@
 			}
 		},
 		"schemas": {
-			"verificationOrderCodeSchema":{
+			"ITimeTakenPerOrder":{
+				"type": "object",
+				"properties":{
+					"id_pedido":{
+						"type": "integer"
+					},
+					"tiempo_pedido":{
+						"type": "integer"
+					}
+				}
+			},
+			"IAverageTimePerEmployee":{
+				"type": "object",
+				"properties":{
+					"id_empleado":{
+						"type": "integer"
+					},
+					"tiempo_promedio":{
+						"type": "integer"
+					}
+				}
+			},
+			"IEfficiencyReport":{
+				"type":"object",
+				"properties":{
+					"tiempo_por_pedido":{
+						"type": "array",
+						"items":{
+							"$ref": "#/components/schemas/ITimeTakenPerOrder"
+						}
+					},
+					"tiempo_promedio_por_empleado":{
+						"type": "array",
+						"items":{
+							"$ref": "#/components/schemas/IAverageTimePerEmployee"
+						}
+					}
+				}
+			},
+			"verificationOrderCodeSchema": {
 				"type": "object",
 				"properties": {
 					"codigo_verificacion": {

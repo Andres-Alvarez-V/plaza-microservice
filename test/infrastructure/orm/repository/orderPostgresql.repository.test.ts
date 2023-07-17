@@ -18,6 +18,7 @@ describe('OrderPostgresqlRepository', () => {
 		id_chef: 1,
 		id_restaurante: 1,
 		codigo_verificacion: null,
+		tiempo_pedido: null,
 	};
 	const orderDataUpdatedMock: IUpdateOrder = {
 		...orderDataMock,
@@ -192,6 +193,58 @@ describe('OrderPostgresqlRepository', () => {
 				...orderDataUpdatedMock,
 				id: orderId,
 			});
+		});
+	});
+	describe('getTimeTakenPerOrder', () => {
+		it('should get time taken per order', async () => {
+			const findAllMockResolve = [
+				{
+					toJSON: jest.fn().mockReturnValue({
+						id_pedido: 1,
+						tiempo_pedido_segundos: '76096',
+					}),
+				},
+				{
+					toJSON: jest.fn().mockReturnValue({
+						id_pedido: 2,
+						tiempo_pedido_segundos: '760921',
+					}),
+				},
+				{
+					toJSON: jest.fn().mockReturnValue({
+						id_pedido: 3,
+						tiempo_pedido_segundos: '760932',
+					}),
+				},
+			];
+			const expectedTimeTakenPerOrder = [
+				{
+					id_pedido: 1,
+					tiempo_pedido_segundos: '76096',
+				},
+				{
+					id_pedido: 2,
+					tiempo_pedido_segundos: '760921',
+				},
+				{
+					id_pedido: 3,
+					tiempo_pedido_segundos: '760932',
+				},
+			];
+
+			const findAllMock = sequelizeMock.models[ORDER_POSTGRESQL_TABLE].findAll;
+			findAllMock.mockResolvedValue(findAllMockResolve);
+
+			const result = await orderRepository.getTimeTakenPerOrder(1);
+
+			expect(findAllMock).toHaveBeenCalledWith({
+				where: { id_restaurante: 1, estado: PreparationStages.DELIVERED },
+				attributes: [
+					['id', 'id_pedido'],
+					['tiempo_pedido', 'tiempo_pedido_segundos'],
+				],
+			});
+			expect(result).toEqual(expectedTimeTakenPerOrder);
 		});
 	});
 });

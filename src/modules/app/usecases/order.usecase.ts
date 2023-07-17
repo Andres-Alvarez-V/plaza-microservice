@@ -1,5 +1,6 @@
 import { IJWTPayload } from '../../domain/entities/JWTPayload';
 import {
+	IAverageTimePerEmployee,
 	IDishChosen,
 	IOrderCreate,
 	IOrderRequest,
@@ -14,6 +15,8 @@ import { IUserMicroservice } from '../../domain/microservices/user.microservice'
 import boom from '@hapi/boom';
 import { IEmployeeRepository } from '../../domain/repositories/employee.repository';
 import { ITwilioMicroservice } from '../../domain/microservices/twilio.microservice';
+import { IRestaurantRepository } from '../../domain/repositories/restaurant.repository';
+import { IEfficiencyReport } from '../dtos/response/order.dto';
 
 export class OrderUsecase {
 	constructor(
@@ -23,6 +26,7 @@ export class OrderUsecase {
 		private readonly userMicroservice: IUserMicroservice,
 		private readonly employeeRepository: IEmployeeRepository,
 		private readonly twilioMicroservice: ITwilioMicroservice,
+		private readonly restaurantRepository: IRestaurantRepository,
 	) {}
 
 	async create(order: IOrderRequest, jwtPayload: IJWTPayload, token: string) {
@@ -42,6 +46,7 @@ export class OrderUsecase {
 			id_chef: null,
 			id_restaurante: order.id_restaurante,
 			codigo_verificacion: null,
+			tiempo_pedido: null,
 		};
 		const clientEmail = await this.userMicroservice.getUserEmail(jwtPayload.id);
 		const orderCreated = await this.orderRepository.create(newDataOrder);
@@ -194,6 +199,7 @@ export class OrderUsecase {
 		}
 		const dataToUpdate: IUpdateOrder = {
 			estado: PreparationStages.DELIVERED,
+			tiempo_pedido: (Date.now() - orderToUpdate.fecha.getTime()) / 1000, // SEGUNDOS
 		};
 
 		const updatedOrder = await this.orderRepository.updateOrder(orderId, dataToUpdate);
@@ -227,5 +233,36 @@ export class OrderUsecase {
 		await this.traceabilityMicroservice.updateStageClient(newTraceabilityData, orderId, token);
 
 		return updatedOrder;
+	}
+
+	async getEficiencyReport(restaurantId: number, jwtPayload: IJWTPayload) {
+		const restaurant = await this.restaurantRepository.findById(restaurantId);
+		if (!restaurant) {
+			throw boom.notFound('No se encontró el restaurante');
+		}
+		if (restaurant.id_propietario !== jwtPayload.id) {
+			throw boom.forbidden('No tienes permisos para ver este reporte');
+		}
+
+		const timePerOrder = await this.orderRepository.getTimeTakenPerOrder(restaurantId);
+		const employees = await this.employeeRepository.getEmployeesByRestaurantId(restaurantId);
+		const employeesIds = employees.map((employee) => employee.id_empleado);
+		const totalTimePerEmployee = await this.orderRepository.getTotalTimePerEmployee(
+			restaurantId,
+			employeesIds,
+		);
+		const averageTimePerEmployee: IAverageTimePerEmployee[] = totalTimePerEmployee.map(
+			(employee) => {
+				return {
+					id_chef: employee.id_chef,
+					tiempo_promedio_segundos: employee.total_time / employee.total_orders,
+				};
+			},
+		);
+
+		return {
+			tiempo_por_pedido: timePerOrder,
+			tiempo_promedio_por_empleado: averageTimePerEmployee,
+		} as IEfficiencyReport;
 	}
 }
