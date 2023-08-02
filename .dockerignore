@@ -1,0 +1,9 @@
+# Ignorar el directorio node_modules
+node_modules
+
+# Ignorar archivos temporales o de registro
+*.log
+*.tmp
+*.temp
+
+coverage

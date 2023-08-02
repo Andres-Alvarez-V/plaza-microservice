@@ -53,6 +53,7 @@ export class OrderPostgresqlRepository implements IOrderRepository {
 	) {
 		let whereOptions: WhereOptions<any> = { id_restaurante: restaurantId };
 		whereOptions = this.addStageFilter(stages, whereOptions);
+		console.log(whereOptions);
 		const orders = await this.sequelize.models[ORDER_POSTGRESQL_TABLE].findAll({
 			where: whereOptions,
 			limit,

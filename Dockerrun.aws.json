@@ -1,0 +1,13 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "image": {
+    "Name": "camiloalvarezpragma/plaza-microservice:latest",
+    "Update": "true"
+  },
+  "Ports": [
+    {
+      "containerPort": 3001,
+      "hostPort": 3001
+    }
+  ]
+}

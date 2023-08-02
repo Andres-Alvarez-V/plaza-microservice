@@ -199,7 +199,7 @@ export class OrderUsecase {
 		}
 		const dataToUpdate: IUpdateOrder = {
 			estado: PreparationStages.DELIVERED,
-			tiempo_pedido: (Date.now() - orderToUpdate.fecha.getTime()) / 1000, // SEGUNDOS
+			tiempo_pedido: Math.round((Date.now() - orderToUpdate.fecha.getTime()) / 1000), // SEGUNDOS
 		};
 
 		const updatedOrder = await this.orderRepository.updateOrder(orderId, dataToUpdate);

@@ -28,7 +28,7 @@ export const ormErrorHandler = (error: Error, req: Request, res: Response, next:
 };
 
 export const logErrors = (error: Error, req: Request, res: Response, next: NextFunction) => {
-	// console.error(error);
+	console.error(error);
 	next(error);
 };
 

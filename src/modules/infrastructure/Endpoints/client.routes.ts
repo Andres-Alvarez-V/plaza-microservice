@@ -13,7 +13,7 @@ const router = Router();
 
 router.get(
 	'/restaurantes',
-	passport.authenticate('jwt', { session: false }),
+	// passport.authenticate('jwt', { session: false }),
 	validatorCheckRole(RoleType.CLIENT),
 	validatorPaginationParamsHandler,
 	restaurantController.getAllByPagination.bind(restaurantController),
