@@ -1,0 +1,878 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1691100658043" clover="3.2.0">
+  <project timestamp="1691100658044" name="All files">
+    <metrics statements="701" coveredstatements="566" conditionals="91" coveredconditionals="52" methods="124" coveredmethods="100" elements="916" coveredelements="718" complexity="0" loc="701" ncloc="701" packages="14" files="43" classes="43"/>
+    <package name="src">
+      <metrics statements="28" coveredstatements="23" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="2"/>
+      <file name="app.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\app.ts">
+        <metrics statements="28" coveredstatements="23" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="2"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="4" count="3" type="stmt"/>
+        <line num="5" count="3" type="stmt"/>
+        <line num="6" count="3" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="9" count="3" type="stmt"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="18" count="3" type="stmt"/>
+        <line num="22" count="3" type="stmt"/>
+        <line num="23" count="3" type="stmt"/>
+        <line num="24" count="3" type="stmt"/>
+        <line num="25" count="3" type="stmt"/>
+        <line num="26" count="3" type="stmt"/>
+        <line num="27" count="3" type="stmt"/>
+        <line num="28" count="3" type="stmt"/>
+        <line num="29" count="3" type="stmt"/>
+        <line num="30" count="3" type="stmt"/>
+        <line num="31" count="3" type="stmt"/>
+        <line num="32" count="3" type="stmt"/>
+        <line num="36" count="3" type="stmt"/>
+        <line num="40" count="0" type="stmt"/>
+        <line num="45" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="53" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.adapters.doc">
+      <metrics statements="8" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <file name="swagger.adapter.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\adapters\doc\swagger.adapter.ts">
+        <metrics statements="8" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="5" count="3" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.helpers.enums">
+      <metrics statements="9" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+      <file name="http-code.enum.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\helpers\enums\http-code.enum.ts">
+        <metrics statements="9" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="7" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.modules.app.dtos.request">
+      <metrics statements="41" coveredstatements="41" conditionals="1" coveredconditionals="1" methods="2" coveredmethods="2"/>
+      <file name="dish.dto.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\app\dtos\request\dish.dto.ts">
+        <metrics statements="11" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="15" count="4" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
+        <line num="18" count="4" type="stmt"/>
+        <line num="19" count="4" type="stmt"/>
+        <line num="20" count="4" type="stmt"/>
+        <line num="23" count="4" type="stmt"/>
+        <line num="37" count="4" type="stmt"/>
+        <line num="47" count="4" type="stmt"/>
+      </file>
+      <file name="employee.dto.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\app\dtos\request\employee.dto.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="7" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+      </file>
+      <file name="order.dto.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\app\dtos\request\order.dto.ts">
+        <metrics statements="16" coveredstatements="16" conditionals="1" coveredconditionals="1" methods="2" coveredmethods="2"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="19" count="4" type="stmt"/>
+        <line num="20" count="4" type="stmt"/>
+        <line num="21" count="4" type="stmt"/>
+        <line num="22" count="4" type="stmt"/>
+        <line num="23" count="4" type="stmt"/>
+        <line num="30" count="4" type="stmt"/>
+        <line num="37" count="4" type="stmt"/>
+        <line num="39" count="2" type="stmt"/>
+        <line num="40" count="2" type="stmt"/>
+        <line num="41" count="3" type="stmt"/>
+        <line num="42" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="51" count="4" type="stmt"/>
+      </file>
+      <file name="restaurant.dto.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\app\dtos\request\restaurant.dto.ts">
+        <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="5" type="stmt"/>
+        <line num="4" count="5" type="stmt"/>
+        <line num="14" count="5" type="stmt"/>
+        <line num="18" count="5" type="stmt"/>
+        <line num="19" count="5" type="stmt"/>
+        <line num="20" count="5" type="stmt"/>
+        <line num="21" count="5" type="stmt"/>
+        <line num="22" count="5" type="stmt"/>
+        <line num="25" count="5" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.modules.app.usecases">
+      <metrics statements="142" coveredstatements="124" conditionals="25" coveredconditionals="21" methods="22" coveredmethods="19"/>
+      <file name="dish.usecase.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\app\usecases\dish.usecase.ts">
+        <metrics statements="29" coveredstatements="20" conditionals="6" coveredconditionals="4" methods="4" coveredmethods="4"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="12" count="4" type="stmt"/>
+        <line num="16" count="3" type="stmt"/>
+        <line num="21" count="3" type="stmt"/>
+        <line num="22" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="26" count="2" type="stmt"/>
+        <line num="27" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="37" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="47" count="1" type="stmt"/>
+        <line num="48" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="49" count="1" type="stmt"/>
+        <line num="52" count="0" type="stmt"/>
+        <line num="53" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="54" count="0" type="stmt"/>
+        <line num="57" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="58" count="0" type="stmt"/>
+        <line num="63" count="0" type="stmt"/>
+        <line num="65" count="0" type="stmt"/>
+        <line num="74" count="2" type="stmt"/>
+        <line num="75" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="76" count="1" type="stmt"/>
+        <line num="79" count="1" type="stmt"/>
+        <line num="86" count="1" type="stmt"/>
+      </file>
+      <file name="employee.controller.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\app\usecases\employee.controller.ts">
+        <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+      </file>
+      <file name="order.usecase.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\app\usecases\order.usecase.ts">
+        <metrics statements="103" coveredstatements="97" conditionals="19" coveredconditionals="17" methods="12" coveredmethods="11"/>
+        <line num="10" count="5" type="stmt"/>
+        <line num="15" count="5" type="stmt"/>
+        <line num="21" count="5" type="stmt"/>
+        <line num="23" count="28" type="stmt"/>
+        <line num="24" count="28" type="stmt"/>
+        <line num="25" count="28" type="stmt"/>
+        <line num="26" count="28" type="stmt"/>
+        <line num="27" count="28" type="stmt"/>
+        <line num="28" count="28" type="stmt"/>
+        <line num="29" count="28" type="stmt"/>
+        <line num="33" count="2" type="stmt"/>
+        <line num="38" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="52" count="1" type="stmt"/>
+        <line num="54" count="2" type="stmt"/>
+        <line num="60" count="1" type="stmt"/>
+        <line num="61" count="1" type="stmt"/>
+        <line num="68" count="1" type="stmt"/>
+        <line num="70" count="1" type="stmt"/>
+        <line num="79" count="2" type="stmt"/>
+        <line num="80" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="81" count="1" type="stmt"/>
+        <line num="83" count="1" type="stmt"/>
+        <line num="90" count="1" type="stmt"/>
+        <line num="94" count="5" type="stmt"/>
+        <line num="95" count="5" type="cond" truecount="1" falsecount="0"/>
+        <line num="96" count="1" type="stmt"/>
+        <line num="98" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="99" count="1" type="stmt"/>
+        <line num="101" count="3" type="stmt"/>
+        <line num="105" count="3" type="stmt"/>
+        <line num="108" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="109" count="1" type="stmt"/>
+        <line num="112" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="113" count="1" type="stmt"/>
+        <line num="116" count="1" type="stmt"/>
+        <line num="118" count="1" type="stmt"/>
+        <line num="119" count="1" type="stmt"/>
+        <line num="125" count="1" type="stmt"/>
+        <line num="127" count="1" type="stmt"/>
+        <line num="131" count="0" type="stmt"/>
+        <line num="132" count="0" type="stmt"/>
+        <line num="133" count="0" type="stmt"/>
+        <line num="135" count="0" type="stmt"/>
+        <line num="139" count="5" type="stmt"/>
+        <line num="140" count="5" type="cond" truecount="1" falsecount="0"/>
+        <line num="141" count="1" type="stmt"/>
+        <line num="143" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="144" count="1" type="stmt"/>
+        <line num="146" count="3" type="stmt"/>
+        <line num="147" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="148" count="1" type="stmt"/>
+        <line num="151" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="152" count="1" type="stmt"/>
+        <line num="154" count="1" type="stmt"/>
+        <line num="155" count="1" type="stmt"/>
+        <line num="156" count="1" type="stmt"/>
+        <line num="158" count="1" type="stmt"/>
+        <line num="163" count="1" type="stmt"/>
+        <line num="165" count="1" type="stmt"/>
+        <line num="169" count="1" type="stmt"/>
+        <line num="171" count="1" type="stmt"/>
+        <line num="180" count="4" type="stmt"/>
+        <line num="181" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="182" count="1" type="stmt"/>
+        <line num="184" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="185" count="1" type="stmt"/>
+        <line num="187" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="188" count="1" type="stmt"/>
+        <line num="193" count="1" type="stmt"/>
+        <line num="194" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="195" count="0" type="stmt"/>
+        <line num="197" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="198" count="0" type="stmt"/>
+        <line num="200" count="1" type="stmt"/>
+        <line num="205" count="1" type="stmt"/>
+        <line num="207" count="1" type="stmt"/>
+        <line num="211" count="1" type="stmt"/>
+        <line num="213" count="1" type="stmt"/>
+        <line num="217" count="3" type="stmt"/>
+        <line num="218" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="219" count="1" type="stmt"/>
+        <line num="221" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="222" count="1" type="stmt"/>
+        <line num="224" count="1" type="stmt"/>
+        <line num="228" count="1" type="stmt"/>
+        <line num="229" count="1" type="stmt"/>
+        <line num="233" count="1" type="stmt"/>
+        <line num="235" count="1" type="stmt"/>
+        <line num="239" count="3" type="stmt"/>
+        <line num="240" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="241" count="1" type="stmt"/>
+        <line num="243" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="244" count="1" type="stmt"/>
+        <line num="247" count="1" type="stmt"/>
+        <line num="248" count="1" type="stmt"/>
+        <line num="249" count="2" type="stmt"/>
+        <line num="250" count="1" type="stmt"/>
+        <line num="254" count="1" type="stmt"/>
+        <line num="256" count="2" type="stmt"/>
+        <line num="263" count="1" type="stmt"/>
+      </file>
+      <file name="restaurant.usecase.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\app\usecases\restaurant.usecase.ts">
+        <metrics statements="7" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="3"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="18" count="2" type="stmt"/>
+        <line num="20" count="2" type="stmt"/>
+        <line num="21" count="16" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.modules.domain.enums">
+      <metrics statements="11" coveredstatements="11" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
+      <file name="preparationStages.enum.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\domain\enums\preparationStages.enum.ts">
+        <metrics statements="6" coveredstatements="6" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="2" count="8" type="stmt"/>
+        <line num="3" count="8" type="stmt"/>
+        <line num="4" count="8" type="stmt"/>
+        <line num="5" count="8" type="stmt"/>
+        <line num="6" count="8" type="stmt"/>
+      </file>
+      <file name="role-type.enum.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\domain\enums\role-type.enum.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="2" count="5" type="stmt"/>
+        <line num="3" count="5" type="stmt"/>
+        <line num="4" count="5" type="stmt"/>
+        <line num="5" count="5" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.modules.infrastructure">
+      <metrics statements="34" coveredstatements="34" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="dependencies.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\dependencies.ts">
+        <metrics statements="34" coveredstatements="34" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="7" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="12" count="4" type="stmt"/>
+        <line num="13" count="4" type="stmt"/>
+        <line num="14" count="4" type="stmt"/>
+        <line num="15" count="4" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
+        <line num="20" count="4" type="stmt"/>
+        <line num="21" count="4" type="stmt"/>
+        <line num="22" count="4" type="stmt"/>
+        <line num="23" count="4" type="stmt"/>
+        <line num="24" count="4" type="stmt"/>
+        <line num="25" count="4" type="stmt"/>
+        <line num="28" count="4" type="stmt"/>
+        <line num="29" count="4" type="stmt"/>
+        <line num="30" count="4" type="stmt"/>
+        <line num="33" count="4" type="stmt"/>
+        <line num="34" count="4" type="stmt"/>
+        <line num="35" count="4" type="stmt"/>
+        <line num="36" count="4" type="stmt"/>
+        <line num="47" count="4" type="stmt"/>
+        <line num="48" count="4" type="stmt"/>
+        <line num="49" count="4" type="stmt"/>
+        <line num="50" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.modules.infrastructure.Endpoints">
+      <metrics statements="62" coveredstatements="60" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
+      <file name="admin.routes.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\Endpoints\admin.routes.ts">
+        <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="9" count="3" type="stmt"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="12" count="3" type="stmt"/>
+        <line num="14" count="3" type="stmt"/>
+        <line num="23" count="3" type="stmt"/>
+      </file>
+      <file name="client.routes.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\Endpoints\client.routes.ts">
+        <metrics statements="12" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="9" count="3" type="stmt"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="12" count="3" type="stmt"/>
+        <line num="14" count="3" type="stmt"/>
+        <line num="22" count="3" type="stmt"/>
+        <line num="30" count="3" type="stmt"/>
+        <line num="38" count="3" type="stmt"/>
+        <line num="45" count="3" type="stmt"/>
+      </file>
+      <file name="employee.routes.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\Endpoints\employee.routes.ts">
+        <metrics statements="12" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="9" count="3" type="stmt"/>
+        <line num="13" count="3" type="stmt"/>
+        <line num="15" count="3" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="26" count="3" type="stmt"/>
+        <line num="33" count="3" type="stmt"/>
+        <line num="40" count="3" type="stmt"/>
+        <line num="48" count="3" type="stmt"/>
+      </file>
+      <file name="index.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\Endpoints\index.ts">
+        <metrics statements="15" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="4" count="3" type="stmt"/>
+        <line num="5" count="3" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="9" count="3" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="13" count="3" type="stmt"/>
+        <line num="14" count="3" type="stmt"/>
+        <line num="15" count="3" type="stmt"/>
+        <line num="16" count="3" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="20" count="3" type="stmt"/>
+      </file>
+      <file name="owner.routes.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\Endpoints\owner.routes.ts">
+        <metrics statements="14" coveredstatements="14" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="4" count="3" type="stmt"/>
+        <line num="9" count="3" type="stmt"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
+        <line num="13" count="3" type="stmt"/>
+        <line num="15" count="3" type="stmt"/>
+        <line num="23" count="3" type="stmt"/>
+        <line num="31" count="3" type="stmt"/>
+        <line num="39" count="3" type="stmt"/>
+        <line num="47" count="3" type="stmt"/>
+        <line num="54" count="3" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.modules.infrastructure.controller">
+      <metrics statements="121" coveredstatements="39" conditionals="26" coveredconditionals="1" methods="19" coveredmethods="9"/>
+      <file name="dish.controller.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\controller\dish.controller.ts">
+        <metrics statements="39" coveredstatements="27" conditionals="5" coveredconditionals="1" methods="6" coveredmethods="5"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="7" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
+        <line num="12" count="3" type="stmt"/>
+        <line num="13" count="3" type="stmt"/>
+        <line num="14" count="3" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="20" count="3" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="42" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="43" count="0" type="stmt"/>
+        <line num="45" count="1" type="stmt"/>
+        <line num="46" count="1" type="stmt"/>
+        <line num="47" count="1" type="stmt"/>
+        <line num="48" count="0" type="stmt"/>
+        <line num="53" count="1" type="stmt"/>
+        <line num="58" count="2" type="stmt"/>
+        <line num="59" count="2" type="stmt"/>
+        <line num="60" count="2" type="cond" truecount="0" falsecount="1"/>
+        <line num="61" count="0" type="stmt"/>
+        <line num="63" count="2" type="stmt"/>
+        <line num="64" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="67" count="2" type="stmt"/>
+        <line num="68" count="4" type="stmt"/>
+        <line num="69" count="4" type="cond" truecount="0" falsecount="1"/>
+        <line num="70" count="0" type="stmt"/>
+        <line num="73" count="4" type="stmt"/>
+        <line num="75" count="2" type="stmt"/>
+        <line num="82" count="1" type="stmt"/>
+        <line num="87" count="1" type="stmt"/>
+      </file>
+      <file name="employee.controller.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\controller\employee.controller.ts">
+        <metrics statements="7" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+      </file>
+      <file name="order.controller.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\controller\order.controller.ts">
+        <metrics statements="62" coveredstatements="3" conditionals="21" coveredconditionals="0" methods="8" coveredmethods="1"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="30" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="33" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="34" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="52" count="0" type="stmt"/>
+        <line num="53" count="0" type="stmt"/>
+        <line num="54" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="55" count="0" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="60" count="0" type="stmt"/>
+        <line num="61" count="0" type="stmt"/>
+        <line num="63" count="0" type="stmt"/>
+        <line num="68" count="0" type="stmt"/>
+        <line num="73" count="0" type="stmt"/>
+        <line num="74" count="0" type="stmt"/>
+        <line num="75" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="76" count="0" type="stmt"/>
+        <line num="80" count="0" type="stmt"/>
+        <line num="81" count="0" type="stmt"/>
+        <line num="82" count="0" type="stmt"/>
+        <line num="84" count="0" type="stmt"/>
+        <line num="89" count="0" type="stmt"/>
+        <line num="94" count="0" type="stmt"/>
+        <line num="95" count="0" type="stmt"/>
+        <line num="96" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="97" count="0" type="stmt"/>
+        <line num="101" count="0" type="stmt"/>
+        <line num="102" count="0" type="stmt"/>
+        <line num="103" count="0" type="stmt"/>
+        <line num="104" count="0" type="stmt"/>
+        <line num="111" count="0" type="stmt"/>
+        <line num="116" count="0" type="stmt"/>
+        <line num="121" count="0" type="stmt"/>
+        <line num="122" count="0" type="stmt"/>
+        <line num="123" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="124" count="0" type="stmt"/>
+        <line num="128" count="0" type="stmt"/>
+        <line num="129" count="0" type="stmt"/>
+        <line num="131" count="0" type="stmt"/>
+        <line num="136" count="0" type="stmt"/>
+        <line num="141" count="0" type="stmt"/>
+        <line num="142" count="0" type="stmt"/>
+        <line num="143" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="144" count="0" type="stmt"/>
+        <line num="148" count="0" type="stmt"/>
+        <line num="150" count="0" type="stmt"/>
+        <line num="152" count="0" type="stmt"/>
+        <line num="157" count="0" type="stmt"/>
+      </file>
+      <file name="restaurant.controllers.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\controller\restaurant.controllers.ts">
+        <metrics statements="13" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="2"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="7" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="24" count="2" type="stmt"/>
+        <line num="25" count="2" type="stmt"/>
+        <line num="26" count="2" type="stmt"/>
+        <line num="30" count="2" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.modules.infrastructure.microservices">
+      <metrics statements="32" coveredstatements="29" conditionals="5" coveredconditionals="4" methods="11" coveredmethods="10"/>
+      <file name="traceabilityMicroservice.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\microservices\traceabilityMicroservice.ts">
+        <metrics statements="16" coveredstatements="13" conditionals="4" coveredconditionals="3" methods="5" coveredmethods="4"/>
+        <line num="1" count="6" type="stmt"/>
+        <line num="4" count="6" type="stmt"/>
+        <line num="6" count="6" type="stmt"/>
+        <line num="7" count="34" type="stmt"/>
+        <line num="11" count="2" type="stmt"/>
+        <line num="21" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="31" count="2" type="stmt"/>
+        <line num="41" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="51" count="2" type="stmt"/>
+        <line num="61" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="62" count="1" type="stmt"/>
+        <line num="67" count="0" type="stmt"/>
+        <line num="77" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="78" count="0" type="stmt"/>
+      </file>
+      <file name="twillio.microservice.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\microservices\twillio.microservice.ts">
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="2" count="6" type="stmt"/>
+        <line num="4" count="6" type="stmt"/>
+        <line num="8" count="30" type="stmt"/>
+        <line num="15" count="2" type="stmt"/>
+      </file>
+      <file name="userMicroservice.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\microservices\userMicroservice.ts">
+        <metrics statements="12" coveredstatements="12" conditionals="1" coveredconditionals="1" methods="4" coveredmethods="4"/>
+        <line num="1" count="6" type="stmt"/>
+        <line num="3" count="6" type="stmt"/>
+        <line num="5" count="6" type="stmt"/>
+        <line num="6" count="31" type="stmt"/>
+        <line num="10" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="23" count="9" type="stmt"/>
+        <line num="24" count="2" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.modules.infrastructure.middlewares">
+      <metrics statements="64" coveredstatements="51" conditionals="16" coveredconditionals="10" methods="15" coveredmethods="15"/>
+      <file name="auth.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\middlewares\auth.ts">
+        <metrics statements="9" coveredstatements="7" conditionals="3" coveredconditionals="3" methods="3" coveredmethods="3"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="4" count="3" type="stmt"/>
+        <line num="5" count="3" type="stmt"/>
+        <line num="10" count="6" type="stmt"/>
+        <line num="11" count="6" type="stmt"/>
+        <line num="12" count="6" type="cond" truecount="3" falsecount="0"/>
+        <line num="13" count="6" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+      </file>
+      <file name="error.handler.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\middlewares\error.handler.ts">
+        <metrics statements="16" coveredstatements="15" conditionals="2" coveredconditionals="1" methods="4" coveredmethods="4"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="5" count="3" type="stmt"/>
+        <line num="11" count="15" type="cond" truecount="1" falsecount="0"/>
+        <line num="12" count="12" type="stmt"/>
+        <line num="14" count="12" type="stmt"/>
+        <line num="16" count="3" type="stmt"/>
+        <line num="19" count="3" type="stmt"/>
+        <line num="20" count="15" type="cond" truecount="0" falsecount="1"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="27" count="15" type="stmt"/>
+        <line num="30" count="3" type="stmt"/>
+        <line num="31" count="15" type="stmt"/>
+        <line num="32" count="15" type="stmt"/>
+        <line num="35" count="3" type="stmt"/>
+        <line num="36" count="3" type="stmt"/>
+      </file>
+      <file name="validator.handler.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\middlewares\validator.handler.ts">
+        <metrics statements="39" coveredstatements="29" conditionals="11" coveredconditionals="6" methods="8" coveredmethods="8"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="9" count="7" type="stmt"/>
+        <line num="10" count="7" type="stmt"/>
+        <line num="11" count="7" type="stmt"/>
+        <line num="12" count="7" type="stmt"/>
+        <line num="13" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="20" count="7" type="stmt"/>
+        <line num="25" count="4" type="stmt"/>
+        <line num="26" count="42" type="stmt"/>
+        <line num="27" count="18" type="stmt"/>
+        <line num="28" count="18" type="stmt"/>
+        <line num="30" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="39" count="4" type="stmt"/>
+        <line num="40" count="26" type="stmt"/>
+        <line num="41" count="12" type="stmt"/>
+        <line num="42" count="12" type="stmt"/>
+        <line num="43" count="12" type="cond" truecount="1" falsecount="0"/>
+        <line num="44" count="4" type="stmt"/>
+        <line num="46" count="4" type="stmt"/>
+        <line num="48" count="8" type="stmt"/>
+        <line num="52" count="4" type="stmt"/>
+        <line num="57" count="10" type="stmt"/>
+        <line num="58" count="10" type="stmt"/>
+        <line num="59" count="10" type="stmt"/>
+        <line num="60" count="10" type="cond" truecount="3" falsecount="0"/>
+        <line num="61" count="5" type="stmt"/>
+        <line num="63" count="5" type="stmt"/>
+        <line num="65" count="5" type="cond" truecount="2" falsecount="1"/>
+        <line num="66" count="0" type="stmt"/>
+        <line num="68" count="0" type="stmt"/>
+        <line num="70" count="5" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.modules.infrastructure.orm">
+      <metrics statements="12" coveredstatements="12" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+      <file name="sequelizePostgresqlConnection.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\orm\sequelizePostgresqlConnection.ts">
+        <metrics statements="12" coveredstatements="12" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="12" type="stmt"/>
+        <line num="2" count="12" type="stmt"/>
+        <line num="3" count="12" type="stmt"/>
+        <line num="5" count="12" type="stmt"/>
+        <line num="7" count="12" type="stmt"/>
+        <line num="8" count="12" type="stmt"/>
+        <line num="11" count="129" type="cond" truecount="1" falsecount="0"/>
+        <line num="12" count="9" type="stmt"/>
+        <line num="21" count="9" type="stmt"/>
+        <line num="22" count="9" type="cond" truecount="1" falsecount="0"/>
+        <line num="23" count="9" type="stmt"/>
+        <line num="27" count="129" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.modules.infrastructure.orm.models">
+      <metrics statements="56" coveredstatements="56" conditionals="0" coveredconditionals="0" methods="10" coveredmethods="10"/>
+      <file name="CategoryPostgresql.model.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\orm\models\CategoryPostgresql.model.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="13" type="stmt"/>
+        <line num="4" count="13" type="stmt"/>
+        <line num="5" count="13" type="stmt"/>
+        <line num="23" count="13" type="stmt"/>
+        <line num="29" count="9" type="stmt"/>
+      </file>
+      <file name="DishPostgresql.model.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\orm\models\DishPostgresql.model.ts">
+        <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="1" count="13" type="stmt"/>
+        <line num="3" count="13" type="stmt"/>
+        <line num="4" count="13" type="stmt"/>
+        <line num="6" count="13" type="stmt"/>
+        <line num="7" count="13" type="stmt"/>
+        <line num="53" count="13" type="stmt"/>
+        <line num="64" count="9" type="stmt"/>
+        <line num="68" count="9" type="stmt"/>
+        <line num="75" count="9" type="stmt"/>
+      </file>
+      <file name="EmployeePostgresql.model.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\orm\models\EmployeePostgresql.model.ts">
+        <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="1" count="13" type="stmt"/>
+        <line num="3" count="13" type="stmt"/>
+        <line num="5" count="13" type="stmt"/>
+        <line num="6" count="13" type="stmt"/>
+        <line num="18" count="13" type="stmt"/>
+        <line num="23" count="9" type="stmt"/>
+        <line num="30" count="9" type="stmt"/>
+      </file>
+      <file name="OrderPostgresql.model.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\orm\models\OrderPostgresql.model.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="14" type="stmt"/>
+        <line num="5" count="14" type="stmt"/>
+        <line num="6" count="14" type="stmt"/>
+        <line num="52" count="14" type="stmt"/>
+        <line num="63" count="9" type="stmt"/>
+      </file>
+      <file name="Order_DishPostgresql.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\orm\models\Order_DishPostgresql.ts">
+        <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="1" count="13" type="stmt"/>
+        <line num="3" count="13" type="stmt"/>
+        <line num="4" count="13" type="stmt"/>
+        <line num="6" count="13" type="stmt"/>
+        <line num="7" count="13" type="stmt"/>
+        <line num="23" count="13" type="stmt"/>
+        <line num="29" count="9" type="stmt"/>
+        <line num="33" count="9" type="stmt"/>
+        <line num="40" count="9" type="stmt"/>
+      </file>
+      <file name="RestaurantPostgresql.model.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\orm\models\RestaurantPostgresql.model.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="14" type="stmt"/>
+        <line num="4" count="14" type="stmt"/>
+        <line num="5" count="14" type="stmt"/>
+        <line num="38" count="14" type="stmt"/>
+        <line num="51" count="9" type="stmt"/>
+      </file>
+      <file name="index.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\orm\models\index.ts">
+        <metrics statements="16" coveredstatements="16" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="12" type="stmt"/>
+        <line num="2" count="12" type="stmt"/>
+        <line num="3" count="12" type="stmt"/>
+        <line num="4" count="12" type="stmt"/>
+        <line num="5" count="12" type="stmt"/>
+        <line num="6" count="12" type="stmt"/>
+        <line num="9" count="12" type="stmt"/>
+        <line num="10" count="9" type="stmt"/>
+        <line num="11" count="9" type="stmt"/>
+        <line num="12" count="9" type="stmt"/>
+        <line num="13" count="9" type="stmt"/>
+        <line num="14" count="9" type="stmt"/>
+        <line num="15" count="9" type="stmt"/>
+        <line num="16" count="9" type="stmt"/>
+        <line num="17" count="9" type="stmt"/>
+        <line num="18" count="9" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.modules.infrastructure.orm.repository">
+      <metrics statements="81" coveredstatements="74" conditionals="10" coveredconditionals="7" methods="33" coveredmethods="28"/>
+      <file name="categoryPostgresql.repository.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\orm\repository\categoryPostgresql.repository.ts">
+        <metrics statements="8" coveredstatements="8" conditionals="1" coveredconditionals="1" methods="2" coveredmethods="2"/>
+        <line num="2" count="5" type="stmt"/>
+        <line num="5" count="5" type="stmt"/>
+        <line num="7" count="5" type="stmt"/>
+        <line num="11" count="6" type="stmt"/>
+        <line num="15" count="5" type="stmt"/>
+        <line num="16" count="5" type="cond" truecount="1" falsecount="0"/>
+        <line num="17" count="2" type="stmt"/>
+        <line num="20" count="3" type="stmt"/>
+      </file>
+      <file name="dishPostgresql.repository.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\orm\repository\dishPostgresql.repository.ts">
+        <metrics statements="18" coveredstatements="17" conditionals="3" coveredconditionals="2" methods="6" coveredmethods="6"/>
+        <line num="2" count="5" type="stmt"/>
+        <line num="3" count="5" type="stmt"/>
+        <line num="5" count="5" type="stmt"/>
+        <line num="8" count="5" type="stmt"/>
+        <line num="12" count="7" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="22" count="2" type="stmt"/>
+        <line num="29" count="2" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="34" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="38" count="0" type="stmt"/>
+        <line num="47" count="1" type="stmt"/>
+        <line num="48" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="49" count="1" type="stmt"/>
+        <line num="56" count="1" type="stmt"/>
+        <line num="62" count="4" type="stmt"/>
+      </file>
+      <file name="employeePostgresql.repository.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\orm\repository\employeePostgresql.repository.ts">
+        <metrics statements="10" coveredstatements="10" conditionals="2" coveredconditionals="1" methods="5" coveredmethods="5"/>
+        <line num="3" count="6" type="stmt"/>
+        <line num="5" count="6" type="stmt"/>
+        <line num="8" count="6" type="stmt"/>
+        <line num="12" count="31" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="26" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="36" count="2" type="stmt"/>
+      </file>
+      <file name="orderPostgresql.repository.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\orm\repository\orderPostgresql.repository.ts">
+        <metrics statements="28" coveredstatements="22" conditionals="3" coveredconditionals="2" methods="13" coveredmethods="8"/>
+        <line num="1" count="6" type="stmt"/>
+        <line num="10" count="6" type="stmt"/>
+        <line num="11" count="6" type="stmt"/>
+        <line num="12" count="6" type="stmt"/>
+        <line num="14" count="6" type="stmt"/>
+        <line num="18" count="35" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="28" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="39" count="2" type="stmt"/>
+        <line num="40" count="2" type="stmt"/>
+        <line num="41" count="2" type="stmt"/>
+        <line num="45" count="2" type="stmt"/>
+        <line num="54" count="2" type="stmt"/>
+        <line num="55" count="2" type="stmt"/>
+        <line num="56" count="2" type="stmt"/>
+        <line num="57" count="2" type="stmt"/>
+        <line num="63" count="2" type="stmt"/>
+        <line num="67" count="1" type="stmt"/>
+        <line num="74" count="1" type="stmt"/>
+        <line num="78" count="0" type="stmt"/>
+        <line num="79" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="80" count="0" type="stmt"/>
+        <line num="83" count="0" type="stmt"/>
+        <line num="87" count="1" type="stmt"/>
+        <line num="95" count="3" type="stmt"/>
+        <line num="99" count="0" type="stmt"/>
+        <line num="115" count="0" type="stmt"/>
+      </file>
+      <file name="order_dishPostgresql.repository.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\orm\repository\order_dishPostgresql.repository.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="3" count="6" type="stmt"/>
+        <line num="5" count="6" type="stmt"/>
+        <line num="7" count="6" type="stmt"/>
+        <line num="11" count="29" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+      </file>
+      <file name="restaurantPostgresql.repository.ts" path="C:\Users\camilo.alvarez_pragm\Documents\Camilo\pragma\reto_backend\plaza-microservice\src\modules\infrastructure\orm\repository\restaurantPostgresql.repository.ts">
+        <metrics statements="12" coveredstatements="12" conditionals="1" coveredconditionals="1" methods="5" coveredmethods="5"/>
+        <line num="4" count="6" type="stmt"/>
+        <line num="5" count="6" type="stmt"/>
+        <line num="7" count="6" type="stmt"/>
+        <line num="11" count="31" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="23" count="5" type="stmt"/>
+        <line num="24" count="5" type="cond" truecount="1" falsecount="0"/>
+        <line num="25" count="3" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="32" count="3" type="stmt"/>
+        <line num="38" count="24" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>
