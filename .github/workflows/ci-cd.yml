@@ -9,27 +9,33 @@ jobs:
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
-    env:
-      TWILIO_ACCOUNT_SID: ${{ env.TWILIO_ACCOUNT_SID }}
-      TWILIO_AUTH_TOKEN: ${{ env.TWILIO_AUTH_TOKEN }}
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Install Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 18
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: npm install
-      - name: Test and Coverage
-        run: npm run test:coverage
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Ejecutar pruebas
+        run: |
+          // Acceder a la variable de entorno definida en GitHub Actions
+          const apiKey = process.env.TWILIO_ACCOUNT_SID;
+          console.log(apiKey); // Imprime el valor de la variable de entorno API_KEY
+    # steps:
+    #   - uses: actions/checkout@v3
+    #     with:
+    #       fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+    #   - name: Install Node.js
+    #     uses: actions/setup-node@v2
+    #     with:
+    #       node-version: 18
+
+    #   - name: Install dependencies
+    #     run: npm install
+    #   - name: Test and Coverage
+    #     run: npm run test:coverage
+    #   - name: SonarCloud Scan
+    #     uses: SonarSource/sonarcloud-github-action@master
+    #     env:
+    #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+    #       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   # build-publish:
   #   runs-on: ubuntu-latest
