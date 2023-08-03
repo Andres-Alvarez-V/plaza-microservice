@@ -20,7 +20,6 @@ export class SequelizePostgresqlConnection {
 			});
 			setUpModels(SequelizePostgresqlConnection.instance);
 			if (this.instance) {
-				console.log('SequelizePostgresqlConnection: Syncing models');
 				this.instance.sync();
 			}
 		}

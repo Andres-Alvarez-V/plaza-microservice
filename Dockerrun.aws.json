@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "image": {
-    "Name": "camiloalvarezpragma/plaza-microservice:latest",
+    "Name": "camiloalvarezpragma/plaza-microservice:v2",
     "Update": "true"
   },
   "Ports": [

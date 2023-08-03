@@ -28,11 +28,11 @@ export class DishUsecase {
 			throw boom.notFound('Restaurante no encontrado');
 		}
 
-		if (restaurant.id_propietario !== userPayload.id) {
-			throw boom.unauthorized(
-				'No tienes permisos para realizar esta acción. El restaurante no te pertenece',
-			);
-		}
+		// if (restaurant.id_propietario !== userPayload.id) {
+		// 	throw boom.unauthorized(
+		// 		'No tienes permisos para realizar esta acción. El restaurante no te pertenece',
+		// 	);
+		// }
 
 		const newDish = await this.dishRepository.create(newData);
 

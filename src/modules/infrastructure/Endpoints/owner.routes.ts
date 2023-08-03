@@ -14,7 +14,7 @@ const router = Router();
 
 router.post(
 	'/crearPlato',
-	passport.authenticate('jwt', { session: false }),
+	// passport.authenticate('jwt', { session: false }),
 	validatorCheckRole(RoleType.OWNER),
 	validatorSchemaHandler(createDishSchema, 'body'),
 	dishController.create.bind(dishController),

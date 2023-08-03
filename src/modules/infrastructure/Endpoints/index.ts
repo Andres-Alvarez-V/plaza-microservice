@@ -7,6 +7,7 @@ import employeeRouter from './employee.routes';
 function routes(app: express.Application) {
 	const router = express.Router();
 	app.get('/', (req, res) => {
+		console.log(req.headers)
 		res.send('Hola mi server en express');
 	});
 	app.use('/api/v1', router);
