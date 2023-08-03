@@ -23,7 +23,7 @@ export const validatorRoleHandler = (role: RoleType) => {
 };
 
 export const validatorCheckRole = (role: RoleType) => {
-	return async (req: Request, res: Response, next: NextFunction) => {
+	return (req: Request, res: Response, next: NextFunction) => {
 		next(); // ESTO SE DEBE QUITAR, SOLO SE USA PARA MOSTRAR LA FUNCIONALIDAD CON COGNITO EN AWS DADO QUE LOS TOKENS SON DISTINTOS
 		return; // ESTO SE DEBE QUITAR, SOLO SE USA PARA MOSTRAR LA FUNCIONALIDAD CON COGNITO EN AWS DADO QUE LOS TOKENS SON DISTINTOS
 

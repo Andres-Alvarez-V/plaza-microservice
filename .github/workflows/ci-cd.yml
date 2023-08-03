@@ -1,0 +1,58 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  build-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v4.1.1
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ github.sha }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        
+      - name: Notify on failure
+        if: ${{ failure() }}
+        uses: julb/action-post-googlechat-message@v1
+        with: 
+          gchat_webhook_url: ${{ secrets.WEBHOOK_URL_GOOGLE }}
+          message: "El pipeline de CI/CD en el microservicio de Plazoleta falló. Revisa los detalles en ${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+
