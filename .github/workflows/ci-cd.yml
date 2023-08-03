@@ -9,6 +9,9 @@ jobs:
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
+    env:
+      TWILIO_ACCOUNT_SID: ${{ TWILIO_ACCOUNT_SID }}
+      TWILIO_AUTH_TOKEN: ${{ TWILIO_AUTH_TOKEN }}
     steps:
       - uses: actions/checkout@v3
         with:
