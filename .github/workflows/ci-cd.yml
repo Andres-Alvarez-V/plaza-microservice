@@ -29,11 +29,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: Notify on failure
-          if: ${{ failure() }}
-          uses: julb/action-post-googlechat-message@v1
-          with: 
-            gchat_webhook_url: ${{ secrets.WEBHOOK_URL_GOOGLE }}
-            message: "El pipeline de CI/CD en el microservicio de Plazoleta falló en sonarcloud. Revisa los detalles en ${{ github.repository }}/runs/${{ github.run_id }}"
+        if: ${{ failure() }}
+        uses: julb/action-post-googlechat-message@v1
+        with: 
+          gchat_webhook_url: ${{ secrets.WEBHOOK_URL_GOOGLE }}
+          message: "El pipeline de CI/CD en el microservicio de Plazoleta falló en sonarcloud. Revisa los detalles en ${{ github.repository }}/runs/${{ github.run_id }}"
 
 
   build-publish:
