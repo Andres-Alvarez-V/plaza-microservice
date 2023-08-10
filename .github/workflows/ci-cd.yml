@@ -28,6 +28,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Notify on failure
+          if: ${{ failure() }}
+          uses: julb/action-post-googlechat-message@v1
+          with: 
+            gchat_webhook_url: ${{ secrets.WEBHOOK_URL_GOOGLE }}
+            message: "El pipeline de CI/CD en el microservicio de Plazoleta falló en sonarcloud. Revisa los detalles en ${{ github.repository }}/runs/${{ github.run_id }}"
+
 
   build-publish:
     runs-on: ubuntu-latest
@@ -60,7 +67,25 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: "camiloalvarezpragma/plaza-microservice:latest,camiloalvarezpragma/plaza-microservice:${{ github.sha }}"
-        
+
+      - name: Deploy to Elastic Beanstalk
+        run: |
+          # Instala las herramientas de AWS CLI si no están disponibles
+          pip install awscli    
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region us-east-1 
+
+          # Crear una nueva versión de la aplicación en Elastic Beanstalk
+          eb create-application-version --application-name plazoleta --version-label ${{ github.sha }} --source-bundle Type=S3,S3Bucket=elasticbeanstalk-us-east-1-464010825664,S3Key=1691678575205-Dockerrun.aws.json
+
+          # Implementar la nueva versión en el entorno
+          eb deploy Plazoleta-env-1
+
+          # Limpia las credenciales (si no estás utilizando roles IAM en tu entorno de GitHub Actions)
+          aws configure unset aws_access_key_id
+          aws configure unset aws_secret_access_key
+
       - name: Notify on failure
         if: ${{ failure() }}
         uses: julb/action-post-googlechat-message@v1
