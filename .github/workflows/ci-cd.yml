@@ -82,10 +82,6 @@ jobs:
           # Implementar la nueva versión en el entorno
           eb deploy Plazoleta-env-1
 
-          # Limpia las credenciales (si no estás utilizando roles IAM en tu entorno de GitHub Actions)
-          aws configure unset aws_access_key_id
-          aws configure unset aws_secret_access_key
-
       - name: Notify on failure
         if: ${{ failure() }}
         uses: julb/action-post-googlechat-message@v1
